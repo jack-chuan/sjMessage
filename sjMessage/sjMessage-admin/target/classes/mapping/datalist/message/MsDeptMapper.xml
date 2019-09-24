@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.datalist.mapper.message.MsDeptMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.datalist.entity.message.MsDeptEntity" id="msDeptMap">
+        <result property="deptId" column="DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="parentDeptId" column="PARENT_DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="deptCode" column="DEPT_CODE" jdbcType="VARCHAR"/>
+        <result property="deptName" column="DEPT_NAME" jdbcType="VARCHAR"/>
+        <result property="deptSimpname" column="DEPT_SIMPNAME" jdbcType="VARCHAR"/>
+        <result property="orgId" column="ORG_ID" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="ord" column="ORD" jdbcType="DECIMAL"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <!-- TODO: 这里生成所有字段，需删除末尾逗号并按需整理 -->
+    <sql id="MessageDept_Info_Column_List">
+        DEPT_ID, PARENT_DEPT_ID, DEPT_CODE, DEPT_NAME, DEPT_SIMPNAME, ORG_ID, CREATE_DATE, ORD, STATE
+    </sql>
+
+    <select id="queryAllList" resultMap="msDeptMap">
+        select
+        <include refid="MessageDept_Info_Column_List" />
+        from R$DEPT_KTL
+    </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into R$DEPT_KTL(DEPT_ID, PARENT_DEPT_ID, DEPT_CODE, DEPT_NAME, DEPT_SIMPNAME, ORG_ID, CREATE_DATE, ORD, STATE)
+        (
+        <foreach collection="list" index="index" item="deptInfo" separator="union all">
+            select
+            #{deptInfo.deptId,jdbcType=VARCHAR},
+            #{deptInfo.parentDeptId,jdbcType=VARCHAR},
+            #{deptInfo.deptCode,jdbcType=VARCHAR},
+            #{deptInfo.deptName,jdbcType=VARCHAR},
+            #{deptInfo.deptSimpname,jdbcType=VARCHAR},
+            #{deptInfo.orgId,jdbcType=VARCHAR},
+            #{deptInfo.createDate,jdbcType=TIMESTAMP},
+            #{deptInfo.ord,jdbcType=DECIMAL},
+            #{deptInfo.state,jdbcType=DECIMAL}
+            from dual
+        </foreach>
+        )
+    </insert>
+
+    <delete id="deleteAll">
+        delete from R$DEPT_KTL
+    </delete>
+
+    <insert id="saveEntity" parameterType="cn.com.sparknet.sjMessage.datalist.entity.message.MsDeptEntity">
+    insert into R$DEPT_KTL (DEPT_ID, PARENT_DEPT_ID, DEPT_CODE, DEPT_NAME, DEPT_SIMPNAME, ORG_ID, CREATE_DATE, ORD, STATE)
+    values
+    (
+    #{deptId,jdbcType=VARCHAR},
+    #{parentDeptId,jdbcType=VARCHAR},
+    #{deptCode,jdbcType=VARCHAR},
+    #{deptName,jdbcType=VARCHAR},
+    #{deptSimpname,jdbcType=VARCHAR},
+    #{orgId,jdbcType=VARCHAR},
+    #{createDate,jdbcType=TIMESTAMP},
+    #{ord,jdbcType=DECIMAL},
+    #{state,jdbcType=DECIMAL}
+    )
+  </insert>
+</mapper>

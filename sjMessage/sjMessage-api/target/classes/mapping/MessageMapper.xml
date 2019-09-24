@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.sparknet.sjMessage.app.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="cn.com.sparknet.sjMessage.app.entity.Message">
+    <id column="MSG_ID" jdbcType="CHAR" property="msgId" />
+    <result column="MSG_TYPE" jdbcType="VARCHAR" property="msgType" />
+    <result column="MSG_TITLE" jdbcType="VARCHAR" property="msgTitle" />
+    <result column="SENDER" jdbcType="CHAR" property="sender" />
+    <result column="DEPT_ID" jdbcType="CHAR" property="deptId" />
+    <result column="ORG_ID" jdbcType="CHAR" property="orgId" />
+    <result column="SEND_TIME" jdbcType="TIMESTAMP" property="sendTime" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="STATE" jdbcType="CHAR" property="state" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.sparknet.sjMessage.app.entity.MessageWithBLOBs">
+    <result column="RECEIVER" jdbcType="CLOB" property="receiver" />
+    <result column="COPY_TO" jdbcType="CLOB" property="copyTo" />
+    <result column="MSG_CONTENT" jdbcType="CLOB" property="msgContent" />
+    <result column="RECEIVE_NAME" jdbcType="CLOB" property="receiveName" />
+    <result column="SENDSCOPE" jdbcType="CLOB" property="sendScope" />
+    <result column="SENDSCOPE_NAME" jdbcType="CLOB" property="sendScopeName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    MSG_ID, MSG_TYPE, MSG_TITLE, SENDER, DEPT_ID, ORG_ID, SEND_TIME, CREATE_TIME, STATE
+  </sql>
+  <sql id="Blob_Column_List">
+    RECEIVER, COPY_TO, MSG_CONTENT, RECEIVE_NAME, SENDSCOPE, SENDSCOPE_NAME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from T_MESSAGE
+    where MSG_ID = #{msgId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_MESSAGE
+    where MSG_ID = #{msgId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.sparknet.sjMessage.app.entity.MessageWithBLOBs">
+    insert into T_MESSAGE (MSG_ID, MSG_TYPE, MSG_TITLE, 
+      SENDER, DEPT_ID, ORG_ID, SEND_TIME, 
+      CREATE_TIME, STATE, RECEIVER, 
+      COPY_TO, MSG_CONTENT, RECEIVE_NAME, SENDSCOPE, SENDSCOPE_NAME)
+    values (#{msgId,jdbcType=CHAR}, #{msgType,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR}, 
+      #{sender,jdbcType=CHAR}, #{deptId,jdbcType=CHAR}, #{orgId,jdbcType=CHAR}, #{sendTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR}, #{receiver,jdbcType=CLOB}, 
+      #{copyTo,jdbcType=CLOB}, #{msgContent,jdbcType=CLOB}, #{receiveName,jdbcType=CLOB}, #{sendScope,jdbcType=CLOB}, #{sendScopeName,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.sparknet.sjMessage.app.entity.MessageWithBLOBs">
+    insert into T_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="msgId != null">
+        MSG_ID,
+      </if>
+      <if test="msgType != null">
+        MSG_TYPE,
+      </if>
+      <if test="msgTitle != null">
+        MSG_TITLE,
+      </if>
+      <if test="sender != null">
+        SENDER,
+      </if>
+      <if test="deptId != null">
+        DEPT_ID,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="receiver != null">
+        RECEIVER,
+      </if>
+      <if test="copyTo != null">
+        COPY_TO,
+      </if>
+      <if test="msgContent != null">
+        MSG_CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="msgId != null">
+        #{msgId,jdbcType=CHAR},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null">
+        #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=CHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=CHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=CHAR},
+      </if>
+      <if test="sendTime != null">
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=CLOB},
+      </if>
+      <if test="copyTo != null">
+        #{copyTo,jdbcType=CLOB},
+      </if>
+      <if test="msgContent != null">
+        #{msgContent,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.sparknet.sjMessage.app.entity.MessageWithBLOBs">
+    update T_MESSAGE
+    <set>
+      <if test="msgType != null">
+        MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null">
+        MSG_TITLE = #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null">
+        SENDER = #{sender,jdbcType=CHAR},
+      </if>
+      <if test="deptId != null">
+        DEPT_ID = #{deptId,jdbcType=CHAR},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=CHAR},
+      </if>
+      <if test="sendTime != null">
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=CHAR},
+      </if>
+      <if test="receiver != null">
+        RECEIVER = #{receiver,jdbcType=CLOB},
+      </if>
+      <if test="copyTo != null">
+        COPY_TO = #{copyTo,jdbcType=CLOB},
+      </if>
+      <if test="msgContent != null">
+        MSG_CONTENT = #{msgContent,jdbcType=CLOB},
+      </if>
+    </set>
+    where MSG_ID = #{msgId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.com.sparknet.sjMessage.app.entity.MessageWithBLOBs">
+    update T_MESSAGE
+    set MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      MSG_TITLE = #{msgTitle,jdbcType=VARCHAR},
+      SENDER = #{sender,jdbcType=CHAR},
+      DEPT_ID = #{deptId,jdbcType=CHAR},
+      ORG_ID = #{orgId,jdbcType=CHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=CHAR},
+      RECEIVER = #{receiver,jdbcType=CLOB},
+      COPY_TO = #{copyTo,jdbcType=CLOB},
+      MSG_CONTENT = #{msgContent,jdbcType=CLOB},
+      RECEIVE_NAME = #{receiveName,jdbcType=CLOB}
+    where MSG_ID = #{msgId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.sparknet.sjMessage.app.entity.Message">
+    update T_MESSAGE
+    set MSG_TYPE = #{msgType,jdbcType=VARCHAR},
+      RECEIVER = #{receiver,jdbcType=CLOB},
+      MSG_TITLE = #{msgTitle,jdbcType=VARCHAR},
+      MSG_CONTENT = #{msgContent,jdbcType=CLOB},
+      SENDER = #{sender,jdbcType=CHAR},
+      DEPT_ID = #{deptId,jdbcType=CHAR},
+      ORG_ID = #{orgId,jdbcType=CHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=CHAR},
+      RECEIVE_NAME = #{receiveName,jdbcType=CLOB},
+      SENDSCOPE = #{sendScope,jdbcType=CLOB},
+      SENDSCOPE_NAME = #{sendScopeName,jdbcType=CLOB}
+    where MSG_ID = #{msgId,jdbcType=CHAR}
+  </update>
+  <update id="backMsg" parameterType="java.lang.String">
+  	update t_message m set m.state = 'B' where m.msg_id = #{msgId,jdbcType=CHAR}
+  </update>
+</mapper>

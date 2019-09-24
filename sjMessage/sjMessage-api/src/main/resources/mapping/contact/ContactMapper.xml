@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.contact.mapper.ContactsMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.contact.entity.ContactEntity" id="messagePersonMap">
+        <result property="personId" column="PERSON_ID" jdbcType="VARCHAR"/>
+        <result property="personName" column="PERSON_NAME" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="deptName" column="DEPT_NAME"/>
+        <result property="orgId" column="ORG_ID" jdbcType="VARCHAR"/>
+        <result property="personDuty" column="PERSON_DUTY" jdbcType="VARCHAR"/>
+        <result property="orgName" column="ORG_NAME"/>
+    </resultMap>
+
+    <sql id="Person_Info_Column_List">
+        PERSON_ID, PERSON_NAME, DEPT_ID,DEPT_NAME ,ORG_ID, PERSON_DUTY,ORG_NAME
+    </sql>
+
+    <select id="selectPersonInfoByDeptId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+         p.PERSON_ID, p.PERSON_NAME, p.DEPT_ID,d.DEPT_NAME, p.ORG_ID, p.PERSON_DUTY, o.ORG_NAME
+        from R$PERSON p,R$ORG o,R$DEPT d
+        where p.DEPT_ID = #{deptId,jdbcType=VARCHAR}
+        and p.org_id = o.org_id
+        and p.DEPT_ID = d.DEPT_ID
+        and p.STATE = '0'
+    </select>
+
+    <select id="selectPersonInfoByOrgId" parameterType="java.lang.String" resultType="java.util.Map">
+        select
+         p.PERSON_ID, p.PERSON_NAME, p.DEPT_ID,d.DEPT_NAME,p.ORG_ID, p.PERSON_DUTY, o.ORG_NAME
+        from R$PERSON p,R$ORG o,R$DEPT d
+        where p.DEPT_ID = d.DEPT_ID
+        and p.ORG_ID = o.ORG_ID
+        and p.STATE = '0'
+        <if test="orgId != null and orgId != ''">
+            AND p.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        </if>
+        <if test="deptId != null and deptId != ''">
+            AND p.DEPT_ID = #{deptId,jdbcType=VARCHAR}
+        </if>
+        <if test="personName != null and personName != ''">
+            AND p.PERSON_NAME LIKE '%'||#{personName}||'%'
+        </if>
+        <if test="personDuty != null and personDuty != ''">
+            AND p.PERSON_DUTY LIKE '%'||#{personDuty}||'%'
+        </if>
+    </select>
+    <select id="selectPersonInfoByOrgIdCount" parameterType="java.lang.String" resultType="java.util.Map">
+        select COUNT(*) AS COUNTS FROM (select p.PERSON_ID, p.PERSON_NAME, p.DEPT_ID,d.DEPT_NAME,p.ORG_ID, p.PERSON_DUTY, o.ORG_NAME
+        from R$PERSON p,R$ORG o,R$DEPT d
+        where p.DEPT_ID = d.DEPT_ID
+        and p.ORG_ID = o.ORG_ID
+        and p.STATE = '0'
+        <if test="orgId != null and orgId != ''">
+            AND p.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        </if>
+        <if test="deptId != null and deptId != ''">
+            AND p.DEPT_ID = #{deptId,jdbcType=VARCHAR}
+        </if>
+        <if test="personName != null and personName != ''">
+            AND p.PERSON_NAME LIKE '%'||#{personName}||'%'
+        </if>
+        <if test="personDuty != null and personDuty != ''">
+            AND p.PERSON_DUTY LIKE '%'||#{personDuty}||'%'
+        </if>
+        )
+    </select>
+    <select id="selectAllPersonInfo" resultType="java.util.HashMap">
+        select
+        p.PERSON_ID, p.PERSON_NAME, p.DEPT_ID,d.DEPT_NAME,p.ORG_ID, p.PERSON_DUTY, o.ORG_NAME
+        from R$PERSON p,R$ORG o,R$DEPT d
+        where (
+        <if test="personName != null and personName != ''">
+            <bind name="personName" value="'%'+personName+'%'"/>
+             p.PERSON_NAME like #{personName}
+        </if>
+        <if test="personDuty != null and personDuty != ''">
+            <bind name="personDuty" value="'%'+personDuty+'%'"/>
+            or p.PERSON_DUTY like #{personDuty}
+        </if>
+        )
+        and p.DEPT_ID = d.DEPT_ID
+        and p.ORG_ID = o.ORG_ID
+        and p.STATE = '0'
+    </select>
+
+</mapper>

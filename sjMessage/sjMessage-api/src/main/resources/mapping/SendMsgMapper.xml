@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.sparknet.sjMessage.app.mapper.SendMsgMapper">
+  <resultMap id="BaseResultMap" type="cn.com.sparknet.sjMessage.app.entity.SendMsg">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="SENDER" jdbcType="CHAR" property="sender" />
+    <result column="MSG_ID" jdbcType="CHAR" property="msgId" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="STATE" jdbcType="CHAR" property="state" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SENDER, MSG_ID, CREATE_DATE, STATE, TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SENDMSG
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SENDMSG
+    where ID = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.sparknet.sjMessage.app.entity.SendMsg">
+    insert into T_SENDMSG (ID, SENDER, MSG_ID, CREATE_DATE, 
+      STATE, TYPE)
+    values (#{id,jdbcType=CHAR}, #{sender,jdbcType=CHAR}, #{msgId,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=CHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.sparknet.sjMessage.app.entity.SendMsg">
+    insert into T_SENDMSG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="sender != null">
+        SENDER,
+      </if>
+      <if test="msgId != null">
+        MSG_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="sender != null">
+        #{sender,jdbcType=CHAR},
+      </if>
+      <if test="msgId != null">
+        #{msgId,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.sparknet.sjMessage.app.entity.SendMsg">
+    update T_SENDMSG
+    <set>
+      <if test="sender != null">
+        SENDER = #{sender,jdbcType=CHAR},
+      </if>
+      <if test="msgId != null">
+        MSG_ID = #{msgId,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.sparknet.sjMessage.app.entity.SendMsg">
+    update T_SENDMSG
+    set SENDER = #{sender,jdbcType=CHAR},
+      MSG_ID = #{msgId,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=CHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <select id="querySendMsgList" parameterType="java.lang.String" resultType="java.util.Map">
+  	SELECT M.MSG_ID,S.ID,M.MSG_TYPE,M.MSG_TITLE,M.SENDER,
+  	M.DEPT_ID,M.ORG_ID,to_char(M.SEND_TIME,'yyyy-MM-dd') AS SEND_TIME,
+  	TO_CHAR(M.CREATE_TIME,'yyyy-MM-dd') as CREATE_TIME,DECODE(M.STATE,'A','已发送','B','已撤回')  AS STATE,
+  	(SELECT D.DEPT_NAME FROM R$DEPT D WHERE D.DEPT_ID=(SELECT U.DEPT_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS DEPTNAME,
+    (SELECT O.ORG_NAME FROM R$ORG O WHERE O.ORG_ID=(SELECT U.ORG_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS ORGNAME,
+    (SELECT P.PERSON_NAME FROM R$PERSON P WHERE P.PERSON_ID=(SELECT U.PERSON_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS SENDERNAME,
+  	(SELECT COUNT(*) FROM T_MSG_FILE F WHERE F.MSG_ID = S.MSG_ID AND F.STATE = 0) AS FILE_COUNT
+  	FROM T_MESSAGE M,T_SENDMSG S WHERE M.MSG_ID = S.MSG_ID  
+  	AND M.SENDER = S.SENDER AND M.STATE IN ('A')
+  	AND S.SENDER = #{sender,jdbcType=CHAR}
+  	AND S.STATE = #{state,jdbcType=CHAR}
+  	<if test="msgTitle != null and msgTitle != ''">
+     AND M.MSG_TITLE LIKE '%'||#{msgTitle}||'%'
+     </if>
+     <if test="sendName != null and sendName != ''">
+     AND M.SENDER IN(SELECT US.USER_ID FROM R$USER US WHERE US.PERSON_ID IN(SELECT PE.PERSON_ID FROM R$PERSON PE WHERE PE.PERSON_NAME LIKE '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+     <if test="receiveName != null and receiveName != ''">
+     AND M.RECEIVE_NAME LIKE '%'||#{receiveName}||'%'
+     </if>
+     <if test="sDate != null and sDate !='' ">
+     AND M.SEND_TIME &gt;= to_date(#{sDate},'yyyy-mm-dd')
+     </if>
+     <if test="eDate != null and eDate !='' ">
+     AND M.SEND_TIME &lt;= to_date(#{eDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+     </if>
+     order by M.SEND_TIME desc
+  </select>
+  <select id="querySendMsgListCount" parameterType="java.lang.String" resultType="java.util.Map">
+  	SELECT COUNT(*) AS COUNTS FROM (SELECT M.MSG_ID,S.ID,M.MSG_TYPE,M.MSG_TITLE,M.SENDER,
+  	M.DEPT_ID,M.ORG_ID,TO_CHAR(M.SEND_TIME,'yyyy-mm-dd') AS SEND_TIME,
+  	TO_CHAR(M.CREATE_TIME,'yyyy-mm-dd') as CREATE_TIME,DECODE(M.STATE,'A','已发送','B','已撤回') AS STATE
+  	FROM T_MESSAGE M,T_SENDMSG S WHERE M.MSG_ID = S.MSG_ID  
+  	AND M.SENDER = S.SENDER AND M.STATE IN ('A')
+  	AND S.SENDER = #{sender,jdbcType=CHAR}
+  	AND S.STATE = #{state,jdbcType=CHAR}
+  	<if test="msgTitle != null and msgTitle != ''">
+     AND M.MSG_TITLE LIKE '%'||#{msgTitle}||'%'
+     </if>
+     <if test="sendName != null and sendName != ''">
+     AND M.SENDER IN(SELECT US.USER_ID FROM R$USER US WHERE US.PERSON_ID IN(SELECT PE.PERSON_ID FROM R$PERSON PE WHERE PE.PERSON_NAME LIKE '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+     <if test="receiveName != null and receiveName != ''">
+     AND M.RECEIVE_NAME LIKE '%'||#{receiveName}||'%'
+     </if>
+     <if test="sDate != null and sDate !='' ">
+     AND M.SEND_TIME &gt;= to_date(#{sDate},'yyyy-mm-dd')
+     </if>
+     <if test="eDate != null and eDate !='' ">
+     AND M.SEND_TIME &lt;= to_date(#{eDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+     </if>
+     )
+  </select>
+  <update id="deleteSendMsg" parameterType="java.lang.String" >
+  	update t_sendmsg s set s.state = #{state,jdbcType=CHAR},s.update_time = sysdate where s.id = #{id,jdbcType=CHAR}
+  </update>
+  <select id="queryDraftBoxList" parameterType="java.lang.String" resultType="java.util.Map">
+    select m.msg_id,s.id,m.msg_title,m.msg_type,
+    to_char(s.create_date,'yyyy-mm-dd') as create_date,
+    (SELECT D.DEPT_NAME FROM R$DEPT D WHERE D.DEPT_ID=(SELECT U.DEPT_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS DEPTNAME,
+    (SELECT O.ORG_NAME FROM R$ORG O WHERE O.ORG_ID=(SELECT U.ORG_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS ORGNAME,
+    (select count(*) from t_msg_file f where f.msg_id=s.msg_id and f.state = 0) as file_count,s.type,
+    (select p.person_name from r$person p where p.person_id=(select u.person_id from r$user u where u.user_id=m.sender)) as sender
+     from t_sendmsg s,t_message m where s.msg_id=m.msg_id
+     and m.sender = #{sender,jdbcType=CHAR} 
+     and s.state = 'T'
+     <if test="msgTitle != null and msgTitle != ''">
+     and m.msg_title like '%'||#{msgTitle}||'%'
+     </if>
+     <if test="sendName != null and sendName != ''">
+     and m.sender in(select us.user_id from r$user us where us.person_id in(select pe.person_id from r$person pe where pe.person_name like '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+     <if test="receiveName != null and receiveName != ''">
+     and m.receive_name like '%'||#{receiveName}||'%'
+     </if>
+     <if test="sDate != null and sDate !='' ">
+     AND s.create_date &gt;= to_date(#{sDate},'yyyy-mm-dd')
+     </if>
+     <if test="eDate != null and eDate !='' ">
+     AND s.create_date &lt;= to_date(#{eDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+     </if>
+     order by s.create_date desc
+  </select>
+  <select id="queryDraftBoxListCount" parameterType="java.lang.String" resultType="java.util.Map">
+    select count(*) as counts from (select m.msg_id,s.id,m.msg_title,m.msg_type,
+    to_char(s.create_date,'yyyy-mm-dd') as create_date,
+    (select count(*) from t_msg_file f where f.msg_id=s.msg_id) as file_count,s.type,
+    (select p.person_name from r$person p where p.person_id=(select u.person_id from r$user u where u.user_id=m.sender)) as sender
+     from t_sendmsg s,t_message m where s.msg_id=m.msg_id
+     and m.sender = #{sender,jdbcType=CHAR} 
+     and s.state = 'T'
+     <if test="msgTitle != null and msgTitle != ''">
+     and m.msg_title like '%'||#{msgTitle}||'%'
+     </if>
+     <if test="sendName != null and sendName != ''">
+     and m.sender in(select us.user_id from r$user us where us.person_id in(select pe.person_id from r$person pe where pe.person_name like '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+     <if test="receiveName != null and receiveName != ''">
+     and m.receive_name like '%'||#{receiveName}||'%'
+     </if>
+     <if test="sDate != null and sDate !='' ">
+     AND s.create_date &gt;= to_date(#{sDate},'yyyy-mm-dd')
+     </if>
+     <if test="eDate != null and eDate !='' ">
+     AND s.create_date &lt;= to_date(#{eDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+     </if>
+     order by s.create_date desc)
+  </select>
+  <select id="selectByMsgId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SENDMSG
+    where MSG_ID = #{msgId,jdbcType=CHAR}
+  </select>
+  <select id="queryTrashCanList" parameterType="java.lang.String" resultType="java.util.Map">
+    select m.msg_id,s.id,m.msg_title,m.msg_type,
+    to_char(s.create_date,'yyyy-mm-dd') as create_date,
+    DECODE(s.type,'S','发件箱','T','草稿箱')  AS SOURCE,
+    (SELECT D.DEPT_NAME FROM R$DEPT D WHERE D.DEPT_ID=(SELECT U.DEPT_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS DEPTNAME,
+    (SELECT O.ORG_NAME FROM R$ORG O WHERE O.ORG_ID=(SELECT U.ORG_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS ORGNAME,
+    (select count(*) from t_msg_file f where f.msg_id=s.msg_id and f.state = 0) as file_count,s.type,
+    (select p.person_name from r$person p where p.person_id=(select u.person_id from r$user u where u.user_id=m.sender)) as sender
+     from t_sendmsg s,t_message m where s.msg_id=m.msg_id
+     and m.sender = #{userId,jdbcType=CHAR} 
+     and s.state = 'R'
+     <if test="msgTitle != null and msgTitle != ''">
+     and m.msg_title like '%'||#{msgTitle}||'%'
+     </if>
+     <if test="sendName != null and sendName != ''">
+     and m.sender in(select us.user_id from r$user us where us.person_id in(select pe.person_id from r$person pe where pe.person_name like '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+     <if test="receiveName != null and receiveName != ''">
+     and m.receive_name like '%'||#{receiveName}||'%'
+     </if>
+     <if test="sDate != null and sDate !='' ">
+     AND s.create_date &gt;= to_date(#{sDate},'yyyy-mm-dd')
+     </if>
+     <if test="eDate != null and eDate !='' ">
+     AND s.create_date &lt;= to_date(#{eDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+     </if>
+     union all
+     select m.msg_id,r.id,m.msg_title,m.msg_type,
+     to_char(r.create_date,'yyyy-mm-dd') as create_date,
+     DECODE(r.type,'R','收件箱')  AS SOURCE,
+     (SELECT D.DEPT_NAME FROM R$DEPT D WHERE D.DEPT_ID=(SELECT U.DEPT_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS DEPTNAME,
+     (SELECT O.ORG_NAME FROM R$ORG O WHERE O.ORG_ID=(SELECT U.ORG_ID FROM R$USER U WHERE U.USER_ID=M.SENDER)) AS ORGNAME,
+     (select count(*) from t_msg_file f where f.msg_id=r.msg_id and f.state = 0) as file_count,r.type,
+     (select p.person_name from r$person p where p.person_id=(select u.person_id from r$user u where u.user_id=m.sender)) as sender
+     from t_receivemsg r,t_message m where r.msg_id=m.msg_id
+     and r.receiver = #{userId,jdbcType=CHAR} 
+     and r.state = 'R'
+      <if test="msgTitle != null and msgTitle != ''">
+     and m.msg_title like '%'||#{msgTitle}||'%'
+     </if>
+     <if test="sendName != null and sendName != ''">
+     and m.sender in(select us.user_id from r$user us where us.person_id in(select pe.person_id from r$person pe where pe.person_name like '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+     <if test="receiveName != null and receiveName != ''">
+     and m.receive_name like '%'||#{receiveName}||'%'
+     </if>
+     <if test="sDate != null and sDate !='' ">
+     AND r.create_date &gt;= to_date(#{sDate},'yyyy-mm-dd')
+     </if>
+     <if test="eDate != null and eDate !='' ">
+     AND r.create_date &lt;= to_date(#{eDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+     </if>
+     order by create_date desc
+  </select>
+  <select id="queryTrashCanListCount" parameterType="java.lang.String" resultType="java.util.Map">
+    select count(*) as counts from (select m.msg_id,s.id,m.msg_title,m.msg_type,
+    to_char(s.create_date,'yyyy-mm-dd') as create_date,
+    (select count(*) from t_msg_file f where f.msg_id=s.msg_id) as file_count,s.type,
+    (select p.person_name from r$person p where p.person_id=(select u.person_id from r$user u where u.user_id=m.sender)) as sender
+     from t_sendmsg s,t_message m where s.msg_id=m.msg_id
+     and m.sender = #{userId,jdbcType=CHAR} 
+     and s.state = 'R'
+      <if test="msgTitle != null and msgTitle != ''">
+     and m.msg_title like '%'||#{msgTitle}||'%'
+     </if>
+      <if test="sendName != null and sendName != ''">
+     and m.sender in(select us.user_id from r$user us where us.person_id in(select pe.person_id from r$person pe where pe.person_name like '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+      <if test="receiveName != null and receiveName != ''">
+     and m.receive_name like '%'||#{receiveName}||'%'
+     </if>
+     <if test="sDate != null and sDate !='' ">
+     AND s.create_date &gt;= to_date(#{sDate},'yyyy-mm-dd')
+     </if>
+     <if test="eDate != null and eDate !='' ">
+     AND s.create_date &lt;= to_date(#{eDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+     </if>
+     union all
+     select m.msg_id,r.id,m.msg_title,m.msg_type,
+     to_char(r.create_date,'yyyy-mm-dd') as create_date,
+     (select count(*) from t_msg_file f where f.msg_id=r.msg_id) as file_count,r.type,
+     (select p.person_name from r$person p where p.person_id=(select u.person_id from r$user u where u.user_id=m.sender)) as sender
+     from t_receivemsg r,t_message m where r.msg_id=m.msg_id
+     and r.receiver = #{userId,jdbcType=CHAR} 
+     and r.state = 'R'
+      <if test="msgTitle != null and msgTitle != ''">
+     and m.msg_title like '%'||#{msgTitle}||'%'
+     </if>
+      <if test="sendName != null and sendName != ''">
+     and m.sender in(select us.user_id from r$user us where us.person_id in(select pe.person_id from r$person pe where pe.person_name like '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+      <if test="receiveName != null and receiveName != ''">
+     and m.receive_name like '%'||#{receiveName}||'%'
+     </if>
+     <if test="sDate != null and sDate !='' ">
+     AND r.create_date &gt;= to_date(#{sDate},'yyyy-mm-dd')
+     </if>
+     <if test="eDate != null and eDate !='' ">
+     AND r.create_date &lt;= to_date(#{eDate}||' 23:59:59','yyyy-mm-dd hh24:mi:ss')
+     </if>
+     order by create_date desc)
+  </select>
+</mapper>

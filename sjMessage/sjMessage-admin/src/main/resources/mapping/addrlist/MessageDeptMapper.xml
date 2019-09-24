@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.addrlist.mapper.MessageDeptMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.addrlist.entity.MessageDeptEntity" id="messageDeptMap">
+        <result property="deptId" column="DEPT_ID"/>
+        <result property="parentDeptId" column="PARENT_DEPT_ID"/>
+        <result property="deptCode" column="DEPT_CODE"/>
+        <result property="deptName" column="DEPT_NAME"/>
+        <result property="deptSimpname" column="DEPT_SIMPNAME"/>
+        <result property="orgId" column="ORG_ID"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="ord" column="ORD"/>
+        <result property="state" column="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Dept_Info_Column_List">
+        DEPT_ID, PARENT_DEPT_ID, DEPT_CODE, DEPT_NAME, DEPT_SIMPNAME, ORG_ID, CREATE_DATE, ORD
+    </sql>
+
+    <select id="selectDeptInfoByDeptId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        <include refid="Dept_Info_Column_List" />
+        from R$DEPT
+        <if test="deptId != null">
+            where DEPT_ID = #{deptId,jdbcType=VARCHAR}
+            and STATE = '0'
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,57 @@
+# server port
+server:
+  port: 8081
+
+# database
+datasource:
+  tns_a: (DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.149)(PORT = 1521)))(CONNECT_DATA =(SID = QT12)))
+  tns_b: (DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.141)(PORT = 1521)))(CONNECT_DATA =(SID = QT12)))
+  tns_c: //47.101.63.117:1521/ORCLPDB1
+
+# spring
+#spring:
+#  datasource:
+#    driver-class-name: oracle.jdbc.driver.OracleDriver
+##    url: jdbc:mysql://${datasource.url_A}?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10
+#    url: jdbc:oracle:thin:@${datasource.tns_c}
+#    username: sj_message
+#    password: sj_message
+#    max-idle: 10
+#    max-wait: 10000
+#    min-idle: 10
+#    initial-size: 5
+spring:
+  datasource:
+
+    max-idle: 10
+    max-wait: 10000
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: oracle.jdbc.driver.OracleDriver
+      url: jdbc:oracle:thin:@${datasource.tns_c}
+      username: sj_message_leo
+      password: sj_message_leo
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      #Oracle需要打开validation-query注释
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true

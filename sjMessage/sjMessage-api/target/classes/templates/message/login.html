@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/login/login.css" />
+    <script type="text/javascript" th:src="@{/plugins/jquery-1.11.1/jquery-1.11.1.min.js}"></script>
+		<script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+	</head>
+	<body>
+		<div class="Outside">
+			<div class="login">
+				<h1>江苏省市场监督管理局<br/>消息管理系统</h1>
+				<p>Information Management System of Jiangsu Province<br> Market Supervision and Administration Bureau</p>
+				<ul>
+					<li class="borderBottom login-text"><span>用户名</span><input type="text" propertychange="请输入帐号" id="username"></li>
+					<li class="borderBottom login-text"><span>密　码</span><input type="password" id = "password"></li>
+					<!-- <li class="radio"><em class="click"></em><i>记住密码</i><i id="jzmm">记住密码</i></li> -->
+          			<li class="radio"><em  id="jzmm"></em><i>记住密码</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><font color="#FF0000" id="prompt"></font></i></li>
+					<li class="loginBtn" id="login" href="javascript:void(0);" onclick ="js_method()">
+						<a class="login-btn">登&nbsp;&nbsp;录</a>
+					</li>
+				</ul>
+			</div>
+			<div class="bg"></div>
+		</div>
+	</body>
+  <script th:src="@{/js/utils/Utils.js}"></script>
+  <script th:src="@{/js/message/login.js}"></script>
+</html>

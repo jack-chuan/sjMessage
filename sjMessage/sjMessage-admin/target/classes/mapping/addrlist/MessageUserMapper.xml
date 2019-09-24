@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.addrlist.mapper.MessageUserMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.addrlist.entity.MessageUserEntity" id="messageUserMap">
+        <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+        <result property="salt" column="SALT" jdbcType="VARCHAR"/>
+        <result property="personId" column="PERSON_ID" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="orgId" column="ORG_ID" jdbcType="VARCHAR"/>
+        <result property="userType" column="USER_TYPE" jdbcType="CHAR"/>
+        <result property="msgToken" column="MSG_TOKEN" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="DATE"/>
+        <result property="lastLoginDate" column="LAST_LOGIN_DATE" jdbcType="DATE"/>
+        <result property="loginTimes" column="LOGIN_TIMES" jdbcType="DECIMAL"/>
+        <result property="ord" column="ORD" jdbcType="DECIMAL"/>
+        <result property="isAllowLogin" column="IS_ALLOW_LOGIN" jdbcType="CHAR"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="User_Info_Column_List">
+        USER_ID, USERNAME, PERSON_ID, DEPT_ID, ORG_ID, USER_TYPE, CREATE_DATE, LAST_LOGIN_DATE, LOGIN_TIMES, ORD
+    </sql>
+
+    <select id="selectUserInfoByUserId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        <include refid="User_Info_Column_List" />
+        from R$USER
+        where USER_ID = #{userId,jdbcType=VARCHAR}
+        and STATE = '0'
+    </select>
+
+    <select id="selectUserDetailByUserId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select U.USER_ID, U.USERNAME, U.USER_TYPE, U.ORD as USER_ORD
+        , P.PERSON_NAME, P.PERSON_DUTY, P.PERSON_OFFICIAL
+        , D.DEPT_NAME, D.DEPT_SIMPNAME, D.DEPT_CODE
+        , O.ORG_NAME, O.ORG_SIMPNAME, O.ORG_CODE, O.ORG_LEVEL
+        from R$USER U, R$PERSON P, R$DEPT D, R$ORG O
+        where U.USER_ID = #{userId,jdbcType=VARCHAR}
+        and P.PERSON_ID = U.PERSON_ID
+        and D.DEPT_ID = U.DEPT_ID
+        and O.ORG_ID = U.ORG_ID
+        and U.STATE = '0' and P.STATE = '0' and D.STATE = '0' and O.STATE = '0'
+    </select>
+
+
+</mapper>

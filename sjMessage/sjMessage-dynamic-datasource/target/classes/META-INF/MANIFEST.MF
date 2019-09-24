@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: sjMessage-dynamic-datasource
+Implementation-Version: 1.0.0
+Built-By: duyc
+Implementation-Vendor-Id: cn.com.sparknet
+Build-Jdk: 1.8.0_162
+Implementation-URL: https://www.sparknet.com.cn/sjMessage-dynamic-data
+ source
+Created-By: Maven Integration for Eclipse
+

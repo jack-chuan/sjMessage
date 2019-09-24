@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.datalist.mapper.ha.HAPersonMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.datalist.entity.ha.HAPersonEntity" id="haPersonMap">
+        <result property="personId" column="PERSON_ID" jdbcType="CHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="CHAR"/>
+        <result property="orgId" column="ORG_ID" jdbcType="CHAR"/>
+        <result property="duty" column="DUTY" jdbcType="VARCHAR"/>
+        <result property="officeTel" column="OFFICE_TEL" jdbcType="VARCHAR"/>
+        <result property="officeFax" column="OFFICE_FAX" jdbcType="VARCHAR"/>
+        <result property="mobile" column="MOBILE" jdbcType="VARCHAR"/>
+        <result property="homeTel" column="HOME_TEL" jdbcType="VARCHAR"/>
+        <result property="email" column="EMAIL" jdbcType="VARCHAR"/>
+        <result property="address" column="ADDRESS" jdbcType="VARCHAR"/>
+        <result property="zipcode" column="ZIPCODE" jdbcType="CHAR"/>
+        <result property="paperCode" column="PAPER_CODE" jdbcType="VARCHAR"/>
+        <result property="sex" column="SEX" jdbcType="VARCHAR"/>
+        <result property="birthDate" column="BIRTH_DATE" jdbcType="DATE"/>
+        <result property="bloodtype" column="BLOODTYPE" jdbcType="VARCHAR"/>
+        <result property="degree" column="DEGREE" jdbcType="VARCHAR"/>
+        <result property="specialty" column="SPECIALTY" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="DATE"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+        <result property="ord" column="ORD" jdbcType="DECIMAL"/>
+        <result property="attendState" column="ATTEND_STATE" jdbcType="CHAR"/>
+        <result property="startYear" column="START_YEAR" jdbcType="DATE"/>
+        <result property="sabbatical" column="SABBATICAL" jdbcType="VARCHAR"/>
+        <result property="maritalStatus" column="MARITAL_STATUS" jdbcType="CHAR"/>
+        <result property="roomnumber" column="ROOMNUMBER" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- TODO: 这里生成所有字段，需删除末尾逗号并按需整理 -->
+    <sql id="HAPerson_Info_Column_List">
+        PERSON_ID, NAME, DEPT_ID, ORG_ID, DUTY, OFFICE_TEL, OFFICE_FAX, MOBILE, HOME_TEL, EMAIL, ADDRESS, ZIPCODE, PAPER_CODE, SEX, BIRTH_DATE, BLOODTYPE,  DEGREE, SPECIALTY, CREATE_DATE, STATE, ORD, ATTEND_STATE, START_YEAR, SABBATICAL, MARITAL_STATUS, ROOMNUMBER
+    </sql>
+
+    <select id="queryAllList" resultMap="haPersonMap">
+        select
+        <include refid="HAPerson_Info_Column_List" />
+        from R$PERSON
+        where STATE = '0'
+    </select>
+
+</mapper>

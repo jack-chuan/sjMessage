@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.datalist.mapper.message.MsMainPersonMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.datalist.entity.message.MsMainPersonEntity" id="msPersonMap">
+        <result property="personId" column="PERSON_ID" jdbcType="VARCHAR"/>
+        <result property="personName" column="PERSON_NAME" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="orgId" column="ORG_ID" jdbcType="VARCHAR"/>
+        <result property="personDuty" column="PERSON_DUTY" jdbcType="VARCHAR"/>
+        <result property="personOfficial" column="PERSON_OFFICIAL" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="DATE"/>
+        <result property="ord" column="ORD" jdbcType="DECIMAL"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <!-- TODO: 这里生成所有字段，需删除末尾逗号并按需整理 -->
+    <sql id="MessagePerson_Info_Column_List">
+        PERSON_ID, PERSON_NAME, DEPT_ID, ORG_ID, PERSON_DUTY, PERSON_OFFICIAL, CREATE_DATE, ORD, STATE
+    </sql>
+
+    <select id="queryAllList" resultMap="msPersonMap">
+        select
+        <include refid="MessagePerson_Info_Column_List" />
+        from R$PERSON
+    </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into R$PERSON(PERSON_ID, PERSON_NAME, DEPT_ID, ORG_ID, PERSON_DUTY, PERSON_OFFICIAL, CREATE_DATE, ORD, STATE)
+        (
+        <foreach collection="list" index="index" item="personInfo" separator="union all">
+            select
+            #{personInfo.personId,jdbcType=VARCHAR},
+            #{personInfo.personName,jdbcType=VARCHAR},
+            #{personInfo.deptId,jdbcType=VARCHAR},
+            #{personInfo.orgId,jdbcType=VARCHAR},
+            #{personInfo.personDuty,jdbcType=VARCHAR},
+            #{personInfo.personOfficial,jdbcType=VARCHAR},
+            #{personInfo.createDate,jdbcType=TIMESTAMP},
+            #{personInfo.ord,jdbcType=DECIMAL},
+            #{personInfo.state,jdbcType=DECIMAL}
+            from dual
+        </foreach>
+        )
+    </insert>
+
+    <delete id="deleteAll">
+        delete from R$PERSON
+    </delete>
+
+    <insert id="saveEntity" parameterType="cn.com.sparknet.sjMessage.datalist.entity.message.MsMainPersonEntity">
+    insert into R$PERSON(PERSON_ID, PERSON_NAME, DEPT_ID, ORG_ID, PERSON_DUTY, PERSON_OFFICIAL, CREATE_DATE, ORD, STATE)
+    values
+    (
+    #{personId,jdbcType=VARCHAR},
+    #{personName,jdbcType=VARCHAR},
+    #{deptId,jdbcType=VARCHAR},
+    #{orgId,jdbcType=VARCHAR},
+    #{personDuty,jdbcType=VARCHAR},
+    #{personOfficial,jdbcType=VARCHAR},
+    #{createDate,jdbcType=TIMESTAMP},
+    #{ord,jdbcType=DECIMAL},
+    #{state,jdbcType=DECIMAL}
+    )
+  </insert>
+
+    <update id="updateByEntity" parameterType="cn.com.sparknet.sjMessage.datalist.entity.message.MsMainPersonEntity">
+    update R$PERSON
+    <set>
+        <if test="personName != null">
+            PERSON_NAME = #{personName,jdbcType=VARCHAR},
+        </if>
+        <if test="deptId != null">
+            DEPT_ID = #{deptId,jdbcType=VARCHAR},
+        </if>
+        <if test="orgId != null">
+            ORG_ID = #{orgId,jdbcType=VARCHAR},
+        </if>
+        <if test="personDuty != null">
+            PERSON_DUTY = #{personDuty,jdbcType=VARCHAR},
+        </if>
+        <if test="personOfficial != null">
+            PERSON_OFFICIAL = #{personOfficial,jdbcType=VARCHAR},
+        </if>
+        <if test="createDate != null">
+            CREATE_DATE = #{createDate,jdbcType=DECIMAL},
+        </if>
+        <if test="ord != null">
+            ORD = #{ord,jdbcType=TIMESTAMP},
+        </if>
+        <if test="state != null">
+            STATE = #{state,jdbcType=DECIMAL}
+        </if>
+    </set>
+    where PERSON_ID = #{personId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:ty="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>login page</title>
+    <script type="text/javascript" th:src="@{/plugins/jquery-1.7.2/jquery-1.7.2.js}"></script>
+</head>
+<body>
+<form id="login_form" th:action="@{/admin/login}" method="post">
+    username:<input type="text" name="username" /><br>
+    password:<input id="pwd" type="password" name="password" /><br>
+    <input type="submit" value="login">
+</form>
+</body>
+<script>
+    /*$("#login_form").submit(function(){
+        var pwd = $("#pwd").val();
+        console.log(pwd);
+    });
+    $("#login_form").ajaxForm(function (data) {
+            console.log(data);
+            console.log("str:" + JSON.stringify(data));
+        }
+    );*/
+</script>
+</html>

@@ -1,0 +1,28 @@
+html,body{
+    height: 100%;
+}
+.layui-row{
+    height: 100%;
+}
+
+.layui-col-md2,.layui-col-md10{
+    height: 100%;
+}
+
+.sj-source-bg{
+    margin: 5px;
+    width: 100%;
+    height: 40px;
+    background-color: #999999;
+}
+
+.sj-source{
+    padding-top: 9px;
+    padding-right: 5px;
+    margin-right: 10px;
+}
+
+.choosedept{
+    text-align: center;
+}
+

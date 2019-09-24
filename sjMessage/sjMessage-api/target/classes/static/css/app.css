@@ -1,0 +1,370 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "微软雅黑";
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  color: #333;
+  font-size: 14px;
+  background: #F5F7FA;
+}
+/*@font-face {
+  font-family: "iconfont";
+  src: url('iconfont/iconfont.eot?t=1563248327321');
+  !* IE9 *!
+  src: url('iconfont/iconfont.eot?t=1563248327321#iefix') format('embedded-opentype'), !* IE6-IE8 *!
+  url('data:application/x-font-woff2;charset=utf-8;base64,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') format('woff2'),  url('iconfont/iconfont.woff?t=1563248327321') format('woff'), url('iconfont/iconfont.ttf?t=1563248327321') format('truetype'), !* chrome, firefox, opera, Safari, Android, iOS 4.2+ *! url('iconfont/iconfont.svg?t=1563248327321#iconfont') format('svg');
+  !* iOS 4.1- *!
+}*/
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* .MessTop {
+  height: 90px;
+  background-color: #0a37a7;
+  color: #fff;
+  padding-left: 124px ;
+  background-image: url(../img/logo.png);
+  background-repeat: no-repeat;
+  background-position: 40px center;
+  padding-right: 20px;
+}
+.MessTop h1 {
+  font-size: 28px ;
+  line-height: 90px;
+  font-weight: normal;
+  float: left;
+}
+.MessTop div {
+  float: right;
+  line-height: 90px;
+  height: 90px;
+}
+.MessTop div .apply {
+  margin-right: 30px;
+  font-size: 20px;
+  padding-left: 12px;
+}
+.MessTop div .apply i {
+  width: 12px ;
+  height: 12px ;
+  background-image: url(../img/icon4.png);
+  background-repeat: no-repeat;
+  background-position: center 2px;
+  display: inline-block;
+  margin-left: 10px ;
+} */
+/* .MessTop div .apply i .click {
+  background-position: center -14px;
+}
+.MessTop div a {
+  width: 90px;
+  height: 90px ;
+  font-size: 0 ;
+  display: inline-block;
+}
+.MessTop div a:hover {
+  background-color: #1b50b2;
+  width: 90px;
+  height: 90px ;
+} */
+/* .MessTop div .user {
+  background-image: url(../img/icon3.png);
+  background-repeat: no-repeat;
+  vertical-align: middle;
+}
+.MessTop div .userB {
+  background-position: center -30px;
+}
+.MessTop div .userA {
+  background-position: center 30px;
+} */
+.MainFrame {
+  position: absolute;
+  top: 90px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+}
+.MainFrame .frameBody {
+  box-sizing: border-box;
+  padding-left: 210px;
+  height: 100%;
+}
+.MainFrame .frameBody #frameBody {
+  border: none;
+  background: #F5F7FA;
+  width: 100%;
+  height: 100%;
+}
+.MainFrame .Sidebar {
+  background: #F2F5FC;
+  border-right: 1px solid #BDD2FF;
+  font-size: 14px;
+  width: 210px;
+  box-sizing: border-box;
+  position: relative;
+  float: left;
+  height: 100%;
+}
+.MainFrame .Sidebar .Send {
+  position: absolute;
+  display: block;
+  text-align: center;
+  width: 100%;
+  left: 0;
+  bottom: 20px;
+}
+.MainFrame .Sidebar ul {
+  width: 100%;
+  list-style: none;
+}
+.MainFrame .Sidebar ul li a {
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  color: #505152;
+  padding-left: 50px;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+}
+.MainFrame .Sidebar ul li a:hover {
+  background: #D0DAF3;
+  color: #1E5DF8;
+  cursor: pointer;
+  transition: 0.3s all ease-in;
+}
+.MainFrame .Sidebar ul li a .iconfont {
+  font-size: 22px;
+  margin-right: 10px;
+  margin-top: 10px;
+  vertical-align: middle;
+}
+.MainFrame .Sidebar ul li .on {
+  background: #D0DAF3;
+  color: #1E5DF8;
+}
+.top {
+    padding-left: 10px;
+}
+.main {
+  padding: 10px 30px;
+}
+.MailTitleBody {
+  position: relative;
+  padding-left: 64px;
+}
+.main .MailTitle {
+  font-size: 24px;
+  color: #333333;
+  word-break: break-all;
+  line-height: 32px;
+}
+.main .MailType {
+  display: inline-block;
+  line-height: 28px;
+  width: 54px;
+  color: #fff;
+  height: 28px;
+  text-align: center;
+  font-size: 14px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.main .Emergency {
+  background: url("../img/msgType_yellow.png") no-repeat;
+}
+.main .commonly{
+    background: url("../img/msgType_green.png") no-repeat;
+}
+.main .MailSend {
+  margin-top: 10px;
+}
+.main .MailSend div span {
+  margin-left: 10px;
+}
+.main .MailSend .SendName span {
+  color: #4F7CF8;
+}
+.main .MsgContent {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px 20px;
+  color: #333;
+  margin-top: 5px;
+  min-height: 300px;
+}
+.UploadBtnBody #add_Upload{
+    width:80px;
+    height:22px;
+    position:relative;
+    overflow:hidden;
+    cursor: pointer;
+}
+.UploadBtnBody .UploadBtn {
+  background: url("../img/uploadFileIcon.png") no-repeat 0 3px;
+  border: none;
+  color: #306AF8;
+  padding-left: 15px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.UploadBtnBody .picUpload {
+    position:absolute;
+    width:500px;
+    height:23px;
+    top:0;
+    right:0;
+    opacity:0;
+    cursor:pointer;
+}
+.UploadBtnBody .Description {
+  color: #999;
+}
+.uploadFileName .MailFile {
+  margin-top: 15px;
+}
+.uploadFileName .MailFile li {
+  box-sizing: border-box;
+  padding: 0 10px 0 50px;
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background: url("../img/fileIcon.png") no-repeat 10px 10px #E4EBFB;
+  height: 50px;
+  line-height: 50px;
+}
+.uploadFileName .MailFile li .uploadName {
+  color: #4F7CF8;
+  display: inline-block;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.uploadFileName .MailFile li .download {
+    cursor:pointer;
+}
+/*.main .MailFile li .FileSize {*/
+  /*font-size: 12px;*/
+/*}*/
+/*.main .MailFile li .Info-Success {*/
+  /*font-size: 12px;*/
+  /*color: #1BA92F;*/
+/*}*/
+/*.main .MailFile li .Info-error {*/
+  /*font-size: 12px;*/
+  /*color: #E91D1D;*/
+/*}*/
+.uploadFileName .MailFile li .dlBtn {
+  background: none;
+  border: none;
+  color: #004aff;
+  cursor: pointer;
+  outline: none;
+  vertical-align: middle;
+  margin-top: -42px;
+  margin-left: 20px;
+}
+.uploadFileName .MailFile li .delBtn {
+  background: none;
+  border: none;
+  color: #ff270a;
+  cursor: pointer;
+  outline: none;
+  vertical-align: middle;
+  margin-top: -42px;
+  margin-left: 20px;
+}
+.sq-form .userChange_ztree {
+  padding-right: 80px;
+  padding-top: 7px;
+  user-select: none;
+}
+.sq-form .seBtn{
+    position: absolute;
+    right: 74px;
+    top: 50%;
+    margin-top: -19px;
+}
+.sq-form .clearBtn{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -19px;
+}
+.sq-form .layui-form-label{
+  text-align: left;
+    padding-left: 0;
+}
+.sq-form .layui-form-item{
+    padding-left: 8px;
+}
+.sq-form .textBody {
+    background: #fff;
+}
+.sq-form .sjUser {
+  padding-top: 10px;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+}
+.stInput{
+    border: none;
+    display: block;
+    width: 100%;
+    padding: 9px 0;
+    background: #F5F7FA;
+    outline: none;
+}
+.detailInput {
+    padding-top: 10px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+.tips_btn{
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+.sendScope, .receiveName{
+  padding-right: 140px;
+  padding-top: 7px;
+}
+.titleBody{
+    position: relative;
+}
+/*# sourceMappingURL=app.css.map */
+
+/*替换radio 主题颜色 开始*/
+.layui-form-radio>i:hover,.layui-form-radioed>i{color:#1e9fff;}
+/*替换radio 主题颜色 结束*/
+
+.orgNameInput,.userNameInput{
+  margin-left: 0px;
+}
+
+.ztree * {
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+  font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+}
+
+.sendScopeName,
+.receiveName {
+  padding-right: 140px;
+}

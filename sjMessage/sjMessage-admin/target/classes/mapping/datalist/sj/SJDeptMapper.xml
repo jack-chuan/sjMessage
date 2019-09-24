@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.datalist.mapper.sj.SJDeptMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.datalist.entity.sj.SJDeptEntity" id="sjDeptMap">
+        <result property="deptId" column="DEPT_ID" jdbcType="CHAR"/>
+        <result property="deptCode" column="DEPT_CODE" jdbcType="VARCHAR"/>
+        <result property="parentDeptId" column="PARENT_DEPT_ID" jdbcType="CHAR"/>
+        <result property="belongOrgId" column="BELONG_ORG_ID" jdbcType="CHAR"/>
+        <result property="deptName" column="DEPT_NAME" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="DATE"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+        <result property="simpName" column="SIMP_NAME" jdbcType="VARCHAR"/>
+        <result property="choose" column="CHOOSE" jdbcType="CHAR"/>
+        <result property="ord" column="ORD" jdbcType="DECIMAL"/>
+        <result property="deptStatName" column="DEPT_STAT_NAME" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- TODO: 这里生成所有字段，需删除末尾逗号并按需整理 -->
+    <!--<sql id="SJDept_Info_Column_List">
+        DEPT_ID, DEPT_CODE, PARENT_DEPT_ID, BELONG_ORG_ID, DEPT_NAME, CREATE_DATE, STATE, SIMP_NAME, CHOOSE, ORD, DEPT_STAT_NAME
+    </sql>-->
+
+    <sql id="SJDept_Info_Column_List">
+        DEPT_ID, PARENT_DEPT_ID, DEPT_CODE, DEPT_NAME, SIMP_NAME, BELONG_ORG_ID, CREATE_DATE, ORD, STATE
+    </sql>
+
+    <select id="queryAllList" resultMap="sjDeptMap">
+        select
+        <include refid="SJDept_Info_Column_List" />
+        from R$DEPT
+        where STATE = '0'
+    </select>
+</mapper>

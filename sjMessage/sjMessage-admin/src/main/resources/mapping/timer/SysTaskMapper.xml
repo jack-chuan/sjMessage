@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.timer.mapper.SysTaskMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.timer.entity.SysTaskEntity" id="sysTaskMap">
+        <result property="taskId" column="TASK_ID" jdbcType="VARCHAR"/>
+        <result property="taskName" column="TASK_NAME" jdbcType="VARCHAR"/>
+        <result property="taskRemark" column="TASK_REMARK" jdbcType="VARCHAR"/>
+        <result property="jobClass" column="JOB_CLASS" jdbcType="VARCHAR"/>
+        <result property="cronExpression" column="CRON_EXPRESSION" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="DATE"/>
+        <result property="updateDate" column="UPDATE_DATE" jdbcType="DATE"/>
+        <result property="isEnable" column="IS_ENABLE" jdbcType="DECIMAL"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <!-- TODO: 这里生成所有字段，需删除末尾逗号并按需整理 -->
+    <sql id="SysTask_Info_Column_List">
+        TASK_ID, TASK_NAME, TASK_REMARK, JOB_CLASS, CRON_EXPRESSION, CREATE_DATE, UPDATE_DATE, IS_ENABLE, STATE
+    </sql>
+
+    <select id="queryAllList" resultMap="sysTaskMap">
+        select
+        <include refid="SysTask_Info_Column_List" />
+        from SYS_TASK
+    </select>
+
+</mapper>

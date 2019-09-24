@@ -1,0 +1,426 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+	padding: 0px;
+	margin: 0px;
+	box-sizing:border-box;
+}
+html, body {
+	width:100%;
+	height:100%;	
+}
+ul li{
+	list-style:none;
+	}
+body {
+	color:#333;
+	font-size:14px;
+	font-family:Microsoft Yahei, arial;
+	background:#fff;
+}
+.BGCL{
+	background-color:#f4f5f5;
+}
+.clearfix:after{
+	content:"" ;
+	display: block;
+	clear: both;
+}
+/*login*/
+.Outside{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+}
+.bg{
+	position:absolute;
+	width:100%;
+	height:100% ;
+	z-index: -1;
+    background:url(../img/bg.jpg) left top no-repeat;
+    background-size:100% 100%;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+            src='../img/bg.jpg', sizingMethod='scale');
+    -ms-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+            src='../img/bg.jpg', sizingMethod='scale');
+
+
+}
+/*.bg img{width:100%;height:100%;}*/
+
+
+.login{
+	width: 60%;
+    height: 100%;
+    color: #04369f;
+    padding: 5% 0 0 10%;
+    position: absolute;
+    z-index:9999;
+}
+.login h1{
+	font-size:70px ;
+	font-weight: normal;
+	line-height:82px ;
+}
+.login p{
+	font-size:26px ;
+	font-family: Arial,"Microsoft YaHei",sans-serif;
+	line-height:26px ;
+	margin-top:20px ;
+	color:#5a6fb5 ;
+}
+.login ul{
+	padding-right: 40%;
+	margin-top:50px ;
+}
+.login ul li{
+	height:70px ;
+	width: 100%;
+	position:relative ;
+	z-index: 99;
+}
+.login ul li.borderBottom{
+	border-bottom:1px solid #04369f;
+	margin-top: 20px;
+	padding-left:86px ;
+}
+.login ul li span{
+	position:absolute;
+	font-size:30px ;
+	left:0 ;
+	top:10px
+	
+}
+.login ul li.borderBottom input{
+	height: 100%;
+	width: 100%;
+	border: none;
+	background: none;
+	line-height: 69px;
+	font-size: 30px;
+	outline: none;
+	padding-left: 20px;
+position: relative;
+	z-index: 99999;
+}
+.loginBtn{
+margin-top:10px ;
+cursor:pointer ;
+}
+
+
+.radio{
+	line-height:70px ;
+}
+.radio em{
+	display: inline-block;
+	width:28px;
+	height:28px;
+	background-image: url(../img/icon2.png);
+	vertical-align: middle;
+	margin-right:10px ;
+}
+.radio em.click{
+background-image: url(../img/icon1.png);
+}
+.radio i{
+	font-style: normal;
+	font-size:22px ;
+	vertical-align: middle;
+}
+.loginBtn a{
+	display: inline-block;
+	width:100% ;
+	height:100% ;
+	color:#fff ;
+	text-align: center;
+    line-height: 70px;
+    font-size: 30px;
+    border-radius:24px ;
+	background: -webkit-gradient(linear, 0 0, 0 0, from(#F6F4EF), to(#F1EDE6));   
+    background: -webkit-linear-gradient(top,#23c2e5, #1b50b2);   
+    background: -moz-linear-gradient(top,#23c2e5, #1b50b2);   
+    background: -o-linear-gradient(top,#23c2e5, #1b50b2);   
+    background: -ms-linear-gradient(top,#23c2e5,  #1b50b2);   
+    background: linear-gradient(top,#23c2e5,  #1b50b2));   
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType = 0, startColorstr = #23c2e5, endColorstr = #1b50b2);
+
+}
+/*分辨率*/
+@media screen and (max-width: 1439px) {
+	
+	 .login h1{
+		font-size:64px ;
+		line-height:76px ;
+	}
+	.login{
+	    padding: 7% 0 0 10%;
+	}
+	.login p {
+	    font-size: 22px;
+	    }
+    
+}
+/*分辨率结束*/
+/*index*/
+.MessTop{
+	height:80px;
+	background-color: #0a37a7;
+	color: #fff;
+	padding-left:124px ;
+	background-image:url(../img/logo.png);
+	background-repeat: no-repeat;
+	background-position: 40px center;
+	padding-right: 20px;
+}
+.MessTop h1{
+	font-size:28px ;
+	line-height:80px;
+	font-weight: normal;
+	float: left;
+}
+.MessTop div{
+	float: right;
+	line-height:80px ;
+}
+.MessTop div .apply{
+	margin-right: 30px;
+    font-size: 20px;
+    padding-left: 12px;
+}
+.MessTop div a{
+	width: 80px;
+	height:80px ;
+	font-size:0 ;
+	display:inline-block ;
+	}
+.MessTop div .apply i{
+	width:12px ;
+	height:12px ;
+	background-image: url(../img/icon4.png);
+	background-repeat: no-repeat;
+	background-position: center 2px;
+	display: inline-block;
+	margin-left:10px ;
+}
+.MessTop div .apply i.click{
+	background-position: center -14px;
+}
+.MessTop div .user{
+	background-image: url(../img/icon3.png);
+	background-repeat: no-repeat;
+	vertical-align: middle;
+	margin-top: -5px;
+}
+.MessTop div .user.userB{
+	background-position: center -30px;
+}
+.MessTop div .user.userA{
+	
+	background-position: center 30px;
+}
+.MessTop div .user.userC{
+  
+  background-position: center -89px;
+}
+
+/*.MessTop div .userB:hover{
+	background-color: #1b50b2;
+	width: 80px;
+	height: 80px;
+} */
+.MessMain {
+	position: absolute;
+    top: 90px;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+}
+.MessMainBottom{
+ 	position: absolute;
+    top: 26%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.MessMain ul{
+	width:80% ;
+	height: 164px;
+	margin: 30px auto 0 auto;	
+}
+.MessMain ul li{
+	width:25% ;
+	height:100% ;
+	padding:0 8px ;
+	color:#566c92 ;
+	float: left;
+	}
+.MessMain ul li .list{
+	padding: 0 10px;
+	background-color:#fff ;
+	height: 100%;
+	-moz-box-shadow:0px 0px 20px #C7C7C7; 
+	-webkit-box-shadow:0px 0px 20px #C7C7C7; 
+	box-shadow:0px 0px 20px #C7C7C7;
+}
+.MessMain ul li .list h2{
+    font-size: 24px;
+    background-image: url(../img/icon5.png);
+    background-repeat: no-repeat;
+    padding-left: 100px;
+    font-weight: normal;
+    border-bottom: 1px solid #d0e3fe;
+    line-height: 56px;
+   
+}
+.MessMain ul li .list h2.listImg1{
+background-position: 38px 11px
+}
+.MessMain ul li .list h2.listImg2{
+background-position: 38px -121px
+}
+.MessMain ul li .list h2.listImg3{
+background-position: 38px -252px
+}
+.MessMain ul li .list h2.listImg4{
+background-position: 38px -381px
+}
+.MessMain ul li .list h2.listImg5{
+background-position: 38px -515px
+}
+.MessMain ul li .list .listContent{
+	font-size:18px;
+	text-align: center; 
+	padding-top:16px ;
+}
+.MessMain ul li .list .listContent .listFR {
+	float: left;
+	width:50% ;
+
+}
+.MessMain ul li .list .listContent .listFL{
+	margin-left:50% ;
+	}
+.MessMain ul li .list .listContent div p.listC{
+font-size:30px ;
+line-height:60px ;
+}
+.LW{
+	color: #fbba3c;
+}
+.RW{
+	color: #55c795;
+}
+.bgimg{
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index:1 ;
+    text-align: center;
+    padding: 20px 0 0 0;
+}
+.bgimg img{
+height:90% ;
+}
+.MessMainBottomList{
+position: relative;
+height:25% ;
+z-index: 2;
+margin-top: 1%;
+}
+.MessMainBottomList>div{
+width:22% ;
+height:100% ;
+position: absolute;
+top:3%;
+    cursor: pointer;
+}
+.MessMainBottomList .dw1{
+left:39% ; 
+}
+
+.MessMainBottomList div img{
+position: absolute;
+width: 100%;
+    z-index: 1;
+}
+.listText{
+margin-left:45% ;
+position: relative;
+z-index:2 ;
+color:#fff ;
+margin-top:13% ;
+}
+.listText h4{
+font-size:44px ;
+font-weight: normal;
+line-height:1 ;
+}
+.listText h6{
+font-size:34px ;
+font-weight: normal;
+line-height:1.5 ;
+}
+.listText h5{
+font-size:16px ;
+font-weight: normal;
+line-height:1.5 ;
+}
+.MessMainBottomList .dw2{
+left:12% ;
+}
+.MessMainBottomList .dw3{
+right:12% ;
+
+}
+/*.list1{
+	border-bottom:6px solid #6998e5 ;
+}
+.list2{
+	border-bottom:6px solid #f4c160 ;
+}
+.list3{
+	border-bottom:6px solid #65d6a4 ;
+}
+.list4{
+	border-bottom:6px solid #839bf7 ;
+}*/
+.block4{
+	width:100% ;
+	height:100% ;
+}
+.block4 div{
+	position:absolute ;
+	width:9% ;
+	cursor:pointer ;
+	    z-index: 4;
+}
+.block4 div img{
+	width:100% ;
+}
+.block4 .blockA{
+	left:18% ;
+	top:10%;
+}
+.block4 .blockB{
+	left:20% ;
+	top:60%;
+}
+.block4 .blockC{
+	right:18% ;
+	top:10%;
+	
+}
+.block4 .blockD{
+	right:20% ;
+	top:60%;
+}
+
+.userinfo{
+  width: 100%;
+  height: 50%;
+}

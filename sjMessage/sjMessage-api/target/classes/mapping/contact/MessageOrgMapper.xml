@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.contact.mapper.MessageOrgMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.contact.entity.MessageOrgEntity" id="messageOrgMap">
+        <result property="orgId" column="ORG_ID"/>
+        <result property="parentOrgId" column="PARENT_ORG_ID"/>
+        <result property="orgCode" column="ORG_CODE"/>
+        <result property="orgName" column="ORG_NAME"/>
+        <result property="orgSimpname" column="ORG_SIMPNAME"/>
+        <result property="orgDblink" column="ORG_DBLINK"/>
+        <result property="orgLevel" column="ORG_LEVEL"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="ord" column="ORD"/>
+        <result property="state" column="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Org_Info_Column_List">
+        ORG_ID, PARENT_ORG_ID, ORG_CODE, ORG_NAME, ORG_SIMPNAME, ORG_DBLINK, ORG_LEVEL, CREATE_DATE, ORD
+    </sql>
+
+
+    <sql id="Org_Relation_List">
+        ORG_ID, PARENT_ORG_ID, ORG_NAME, ORG_SIMPNAME, ORG_LEVEL
+    </sql>
+
+
+    <select id="selectOrgInfoByOrgId" resultType="java.util.HashMap">
+        select
+        <include refid="Org_Info_Column_List" />
+        from R$ORG
+        where ORG_ID = #{orgId,jdbcType=VARCHAR}
+        and STATE = '0' order by ORG_ID
+    </select>
+
+    <select id="selectOrgInfo" parameterType="java.lang.String" resultType="java.util.Map">
+        select
+        <include refid="Org_Info_Column_List" />
+        from R$ORG
+        where STATE = '0' order by ORG_ID
+    </select>
+
+    <!-- zTree 一次性加载 -->
+    <select id="selectAllOrgChildrenByOrgParentId"  resultType="java.util.HashMap">
+        select
+        <include refid="Org_Relation_List" />
+        from R$ORG
+        where STATE = '0' order by ORG_ID
+    </select>
+
+</mapper>

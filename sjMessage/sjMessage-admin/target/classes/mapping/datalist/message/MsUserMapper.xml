@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.datalist.mapper.message.MsUserMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.datalist.entity.message.MsUserEntity" id="msUserMap">
+        <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
+        <result property="salt" column="SALT" jdbcType="VARCHAR"/>
+        <result property="personId" column="PERSON_ID" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="orgId" column="ORG_ID" jdbcType="VARCHAR"/>
+        <result property="userType" column="USER_TYPE" jdbcType="CHAR"/>
+        <result property="msgToken" column="MSG_TOKEN" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="DATE"/>
+        <result property="lastLoginDate" column="LAST_LOGIN_DATE" jdbcType="DATE"/>
+        <result property="loginTimes" column="LOGIN_TIMES" jdbcType="DECIMAL"/>
+        <result property="ord" column="ORD" jdbcType="DECIMAL"/>
+        <result property="isAllowLogin" column="IS_ALLOW_LOGIN" jdbcType="CHAR"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <!-- TODO: 这里生成所有字段，需删除末尾逗号并按需整理 -->
+    <sql id="MessageUser_Info_Column_List">
+        USER_ID, USERNAME, PASSWORD, SALT, PERSON_ID, DEPT_ID, ORG_ID, USER_TYPE, MSG_TOKEN, CREATE_DATE, LAST_LOGIN_DATE, LOGIN_TIMES, ORD, IS_ALLOW_LOGIN, STATE
+    </sql>
+
+    <select id="queryAllList" resultMap="msUserMap">
+        select
+        <include refid="MessageUser_Info_Column_List" />
+        from R$USER_KTL
+    </select>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into R$USER_KTL(USER_ID, USERNAME, PASSWORD, PERSON_ID, DEPT_ID, ORG_ID, USER_TYPE, CREATE_DATE, ORD, IS_ALLOW_LOGIN, STATE)
+        (
+        <foreach collection="list" index="index" item="userInfo" separator="union all">
+            select
+            #{userInfo.userId,jdbcType=VARCHAR},
+            #{userInfo.username,jdbcType=VARCHAR},
+            #{userInfo.password,jdbcType=VARCHAR},
+            #{userInfo.personId,jdbcType=VARCHAR},
+            #{userInfo.deptId,jdbcType=VARCHAR},
+            #{userInfo.orgId,jdbcType=VARCHAR},
+            #{userInfo.userType,jdbcType=CHAR},
+            #{userInfo.createDate,jdbcType=TIMESTAMP},
+            #{userInfo.ord,jdbcType=DECIMAL},
+            #{userInfo.isAllowLogin,jdbcType=CHAR},
+            #{userInfo.state,jdbcType=DECIMAL}
+            from dual
+        </foreach>
+        )
+    </insert>
+
+    <delete id="deleteAll">
+        delete from R$USER_KTL
+    </delete>
+
+    <insert id="saveEntity" parameterType="cn.com.sparknet.sjMessage.datalist.entity.message.MsUserEntity">
+    insert into R$USER_KTL(USER_ID, USERNAME, PASSWORD, PERSON_ID, DEPT_ID, ORG_ID, USER_TYPE, CREATE_DATE, ORD, IS_ALLOW_LOGIN, STATE)
+    values
+    (
+    #{userId,jdbcType=VARCHAR},
+    #{username,jdbcType=VARCHAR},
+    #{password,jdbcType=VARCHAR},
+    #{personId,jdbcType=VARCHAR},
+    #{deptId,jdbcType=VARCHAR},
+    #{orgId,jdbcType=VARCHAR},
+    #{userType,jdbcType=CHAR},
+    #{createDate,jdbcType=TIMESTAMP},
+    #{ord,jdbcType=DECIMAL},
+    #{isAllowLogin,jdbcType=CHAR},
+    #{state,jdbcType=DECIMAL}
+    )
+  </insert>
+</mapper>

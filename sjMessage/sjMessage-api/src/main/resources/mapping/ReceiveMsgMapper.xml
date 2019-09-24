@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.sparknet.sjMessage.app.mapper.ReceiveMsgMapper">
+  <resultMap id="BaseResultMap" type="cn.com.sparknet.sjMessage.app.entity.ReceiveMsg">
+    <id column="ID" jdbcType="CHAR" property="id" />
+    <result column="RECEIVER" jdbcType="CHAR" property="receiver" />
+    <result column="MSG_ID" jdbcType="CHAR" property="msgId" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="STATE" jdbcType="CHAR" property="state" />
+    <result column="IF_READ" jdbcType="CHAR" property="ifRead" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, RECEIVER, MSG_ID, TO_CHAR(CREATE_DATE,'YYYY-MM-DD HH24:MI') CREATE_DATE, STATE, IF_READ, TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="java.util.Map">
+    select 
+    ID, RECEIVER, MSG_ID, TO_CHAR(CREATE_DATE,'YYYY-MM-DD HH24:MI') CREATE_DATE, STATE, IF_READ, TYPE
+    from T_RECEIVEMSG
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_RECEIVEMSG
+    where ID = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.sparknet.sjMessage.app.entity.ReceiveMsg">
+    insert into T_RECEIVEMSG (ID, RECEIVER, MSG_ID, CREATE_DATE, 
+      STATE, IF_READ, TYPE)
+    values (#{id,jdbcType=CHAR}, #{receiver,jdbcType=CHAR}, #{msgId,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=DECIMAL}, #{ifRead,jdbcType=CHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.sparknet.sjMessage.app.entity.ReceiveMsg">
+    insert into T_RECEIVEMSG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="receiver != null">
+        RECEIVER,
+      </if>
+      <if test="msgId != null">
+        MSG_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="ifRead != null">
+        IF_READ,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="receiver != null">
+        #{receiver,jdbcType=CHAR},
+      </if>
+      <if test="msgId != null">
+        #{msgId,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=DECIMAL},
+      </if>
+      <if test="ifRead != null">
+        #{ifRead,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.sparknet.sjMessage.app.entity.ReceiveMsg">
+    update T_RECEIVEMSG
+    <set>
+      <if test="receiver != null">
+        RECEIVER = #{receiver,jdbcType=CHAR},
+      </if>
+      <if test="msgId != null">
+        MSG_ID = #{msgId,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=DECIMAL},
+      </if>
+      <if test="ifRead != null">
+        IF_READ = #{ifRead,jdbcType=CHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.sparknet.sjMessage.app.entity.ReceiveMsg">
+    update T_RECEIVEMSG
+    set RECEIVER = #{receiver,jdbcType=CHAR},
+      MSG_ID = #{msgId,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=DECIMAL},
+      IF_READ = #{ifRead,jdbcType=CHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <select id="queryInBoxList" parameterType="java.lang.String" resultType="java.util.Map">
+    select m.msg_id,r.id,m.msg_title,m.msg_type,decode(r.if_read,'1','已读','0','未读') as if_read,
+    to_char(r.create_date,'yyyy-mm-dd') as create_date,
+    (select d.dept_name from r$dept d where d.dept_id=(select u.dept_id from r$user u where u.user_id=m.sender)) as deptName,
+    (select o.org_name from r$org o where o.org_id=(select u.org_id from r$user u where u.user_id=m.sender)) as orgName,
+    (select count(*) from t_msg_file f where f.msg_id=r.msg_id and f.state = 0) as file_count,r.type,
+    (select p.person_name from r$person p where p.person_id=(select u.person_id from r$user u where u.user_id=m.sender)) as sender
+     from t_receivemsg r,t_message m where r.msg_id=m.msg_id
+     and r.receiver = #{receiver,jdbcType=CHAR} 
+     and r.if_read = #{ifRead,jdbcType=CHAR}
+     and r.state = #{state,jdbcType=CHAR}
+     <if test='msgTitle != null'>
+     and m.msg_title like '%'||#{msgTitle}||'%'
+     </if>
+     <if test='sendName != null'>
+     and m.sender in(select us.user_id from r$user us where us.person_id in(select pe.person_id from r$person pe where pe.person_name like '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+     <if test='receiveName != null'>
+     and m.receive_name like '%'||#{receiveName}||'%'
+     </if>
+     order by r.create_date desc
+  </select>
+  <select id="queryInBoxListCount" parameterType="java.lang.String" resultType="java.util.Map">
+    select count(*) as counts from (select m.msg_id,r.id,m.msg_title,m.msg_type,decode(r.if_read,'1','已读','0','未读') as if_read,
+    to_char(r.create_date,'yyyy-mm-dd') as create_date,
+    (select count(*) from t_msg_file f where f.msg_id=r.msg_id) as file_count,r.type,
+    (select p.person_name from r$person p where p.person_id=(select u.person_id from r$user u where u.user_id=m.sender)) as sender
+     from t_receivemsg r,t_message m where r.msg_id=m.msg_id
+     and r.receiver = #{receiver,jdbcType=CHAR} 
+     and r.if_read = #{ifRead,jdbcType=CHAR}
+     and r.state = #{state,jdbcType=CHAR}
+     <if test='msgTitle != null'>
+     and m.msg_title like '%'||#{msgTitle}||'%'
+     </if>
+     <if test='sendName != null'>
+     and m.sender in(select us.user_id from r$user us where us.person_id in(select pe.person_id from r$person pe where pe.person_name like '%'||#{sendName,jdbcType=VARCHAR}||'%'))
+     </if>
+     <if test='receiveName != null'>
+     and m.receive_name like '%'||#{receiveName}||'%'
+     </if>
+     order by r.create_date desc)
+  </select>
+  <update id="signRead" parameterType="java.lang.String">
+    update t_receivemsg
+      set if_read = #{ifRead,jdbcType=CHAR}
+      where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="delInBoxMsg" parameterType="java.lang.String">
+    update t_receivemsg
+      set state = #{state,jdbcType=CHAR},update_time = sysdate
+      where id = #{id,jdbcType=CHAR}
+  </update>
+  <select id="getUserName" parameterType="java.lang.String" resultType="java.util.Map">
+    select p.person_name as userName from r$person p,r$user u where
+     p.person_id=u.person_id and u.user_id=#{userId,jdbcType=CHAR}
+  </select>
+  <select id="querySendUserList" parameterType="java.lang.String" resultType="java.util.Map">
+    select u.user_id from r$user u,r$org o where o.org_id = u.org_id and (o.org_id = #{id,jdbcType=CHAR} or o.parent_org_id = #{id,jdbcType=CHAR})
+     union 
+    select u.user_id from r$user u,r$dept d where u.dept_id=d.dept_id and d.dept_id = #{id,jdbcType=CHAR} 
+     union 
+    select u.user_id from r$user u where u.user_id = #{id,jdbcType=CHAR} 
+  </select>
+</mapper>

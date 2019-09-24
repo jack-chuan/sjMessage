@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.sparknet.sjMessage.app.mapper.RUserMapper">
+  <resultMap id="BaseResultMap" type="cn.com.sparknet.sjMessage.app.entity.RUser">
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="userName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="password" />
+    <result column="PERSON_ID" jdbcType="VARCHAR" property="personId" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+  </resultMap>
+<select id="findUserIdByUserName" parameterType="java.lang.String" resultType="java.lang.String">
+  select user_id from R$USER where username = #{userName}
+</select>
+
+<select id="queryUnReadCount"  resultType="int">
+  select count(*) from t_receivemsg where RECEIVER = #{userId} and IF_READ = '0' and STATE = 'A'  
+</select>
+
+<select id="querySendCount" parameterType="java.lang.String"  resultType="int">
+  select count(*) from t_receivemsg where RECEIVER = #{userId}  and IF_READ = '1' and STATE = 'A' and  (create_date between sysdate-7 and sysdate) 
+</select>
+
+<select id="findPasswordByUserId" parameterType="java.lang.String"  resultMap="BaseResultMap">
+  select USER_ID,USERNAME,PASSWORD,PERSON_ID,DEPT_ID,ORG_ID from R$USER where user_id = #{userId}
+</select>
+
+<select id="findDeptIdByUserName" parameterType="java.lang.String" resultType="java.lang.String">
+  select DEPT_ID from R$USER where username = #{username}
+</select>
+
+<select id="findDeptNameByDeptId" parameterType="java.lang.String" resultType="java.lang.String">
+  select DEPT_NAME from R$DEPT where DEPT_ID = #{deptId}
+</select>
+
+<select id="findPersonName" parameterType="java.lang.String" resultType="java.lang.String">
+  select PERSON_NAME from R$PERSON where PERSON_ID = #{personId}
+</select>
+
+<select id="findRUserByUsername" parameterType="java.lang.String"  resultMap="BaseResultMap">
+  select USER_ID,USERNAME,PASSWORD,PERSON_ID,DEPT_ID,ORG_ID from R$USER where username = #{userName}
+</select>
+
+  <select id="findOrgName" parameterType="java.lang.String"  resultType="java.lang.String">
+     select ORG_NAME from R$ORG where ORG_ID = #{orgId}
+  </select>
+  
+    <select id="findProperty" parameterType="java.lang.String"  resultType="java.lang.String">
+     select VALUE from T_CONFIG where NAME = #{name}
+  </select>
+</mapper>

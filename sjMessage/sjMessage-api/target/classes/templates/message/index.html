@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/main.css" />
+    <script type="text/javascript" th:src="@{/plugins/jquery-1.11.1/jquery-1.11.1.min.js}"></script>
+
+	</head>
+	<body class="BGCL">
+	<div class="MessTop"><h1>江苏省市场监督管理局消息管理系统</h1>
+    <div>
+      <div><a class="user userB" href="javascript:void(0);" onclick ="quit()"></a></div>
+      <div>
+<!--         <div class="userinfo" style="line-height: 55px;"><span class="click clickA" id="deptname" ></span></div> -->
+        <div class="userinfo" style="line-height: 85px;"><span class="click clickB" id="username"></span></div>
+      </div>
+      <div><a class="user userA"></a></div>
+      <!-- <div><a class="user userC" href="javascript:void(0);" onclick ="index()"></a></div> --> 
+    </div>
+  </div>
+	<div class="MessMain">
+		   <div class="MessMainBottomList" >
+			       <div class="dw1" onclick="ReadMessage()">
+				       <img src="img/icon7.png">
+				       <div class="listText"><h4 id ="readCount"></h4><h5>已读消息</h5></div>
+				  </div>
+				    <div class="dw2 " onclick="unReadMessage()">
+				       <img src="img/icon8.png">
+				       <div class="listText"><h4 id="unReadCount"></h4><h5>未读消息</h5>
+				     </div>
+				     
+				  </div>
+				    <div class="dw3" onclick="writeMessage()">
+				       <img src="img/icon9.png">
+				       <div class="listText"><h6>写消息</h6>
+				     </div>
+				     
+				  </div>
+			       
+		       </div>
+	
+		<div class="MessMainBottom">
+		       <div class="bgimg"><img src="img/icon6.jpg"></div>
+		       <div class="block4">
+		       	
+		       	<div class="blockA" id="inbox"><img src="img/icon11.png" /></div>
+		       	<div class="blockD" id="draftbox"><img src="img/icon12.png" /></div>
+		       	<div class="blockB" id="dustbin"><img src="img/icon13.png" /></div>
+		       	<div class="blockC" id="outbox"><img src="img/icon10.png" /></div>
+		       </div>
+		    
+		</div>
+	</div>
+	</body>
+      <script th:src="@{/js/utils/Utils.js}"></script>
+  <script th:src="@{/js/message/index.js}"></script>
+</html>

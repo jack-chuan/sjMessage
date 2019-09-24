@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:ty="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <link rel="stylesheet" th:href="@{/plugins/layui-v2.5.4/layui/css/layui.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/plugins/ztree/css/zTreeStyle/zTreeStyle.css}" type="text/css">
+    <style>
+        .ztree * {
+            padding: 0;
+            margin: 1px;
+            font-size:15px;
+            font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif}
+        .layui-input-block {
+            margin-left: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<!--发送范围-->
+<div class="layui-form-item">
+    <div class="layui-block sjUser">
+        <label class="layui-form-label">发送范围:</label>
+        <div class="layui-input-block">
+            <div id="sendScope" name="sendScope" autocomplete="off" class="result sendScope" readonly></div>
+            <input type="text" id="sendScopeId" name="sendScopeId" autocomplete="off" class="layui-input layui-hide result sendScopeId">
+        </div>
+        <button type="button" class="layui-btn layui-btn-normal seBtn" formnovalidate id="chooseSendScope">选择</button>
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-block sjUser">
+        <label class="layui-form-label">收件人:</label>
+        <div class="layui-input-block">
+            <div id="receiveName" name="receiveName" autocomplete="off" class="result receiveName" readonly>请选择收件人</div>
+            <!--<input type="text" name="receiveName" required lay-verify="required" placeholder="请输入收件人" autocomplete="off" class="layui-input result userChange_ztree" readonly>-->
+            <input type="text" id="receiver" name="receiver" autocomplete="off" class="layui-input layui-hide result receiver">
+        </div>
+        <button type="button" class="layui-btn layui-btn-normal seBtn" formnovalidate id="choose">选择</button>
+    </div>
+</div>
+
+<!--机构树-->
+<div class = "orgTree" style="display: none">
+    <div style="width: 300px">
+        <div class="layui-input-block">
+            <input type="text" name="org_name" id="org_name" autocomplete="off" placeholder="请输入机构名" class="layui-input org_name">
+        </div>
+    </div>
+    <div class = "orgTreeContent" style="width: 400px;height: 350px ;float: left;overflow:auto">
+        <ul id="orgList" class="ztree"></ul>
+    </div>
+</div>
+
+<!--人员树-->
+<div class = "userTree" style="display: none">
+    <div style="width: 300px;">
+        <div class="layui-input-block">
+            <input type="text" name="user_name" id="user_name" autocomplete="off" placeholder="请输入部门名和姓名" class="layui-input user_name">
+        </div>
+    </div>
+    <div class = "userTreeContent" style="width: 400px;height: 350px ;float: left;overflow:auto">
+        <ul id="userList" class="ztree"></ul>
+    </div>
+</div>
+
+<script type="text/javascript" th:src="@{/plugins/layui-v2.5.4/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/plugins/jquery-1.11.1/jquery-1.11.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/plugins/ztree/jquery.ztree.all.min.js}"></script>
+<script type="text/javascript" th:src="@{/plugins/ztree/jquery.ztree.exhide.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/contact/userTree.js}"></script>
+
+<script type="text/javascript">
+
+</script>
+</body>
+
+</html>

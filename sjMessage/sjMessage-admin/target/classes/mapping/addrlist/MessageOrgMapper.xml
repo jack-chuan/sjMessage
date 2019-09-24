@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.addrlist.mapper.MessageOrgMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.addrlist.entity.MessageOrgEntity" id="messageOrgMap">
+        <result property="orgId" column="ORG_ID"/>
+        <result property="parentOrgId" column="PARENT_ORG_ID"/>
+        <result property="orgCode" column="ORG_CODE"/>
+        <result property="orgName" column="ORG_NAME"/>
+        <result property="orgSimpname" column="ORG_SIMPNAME"/>
+        <result property="orgDblink" column="ORG_DBLINK"/>
+        <result property="orgLevel" column="ORG_LEVEL"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="ord" column="ORD"/>
+        <result property="state" column="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Org_Info_Column_List">
+        ORG_ID, PARENT_ORG_ID, ORG_CODE, ORG_NAME, ORG_SIMPNAME, ORG_DBLINK, ORG_LEVEL, CREATE_DATE, ORD
+    </sql>
+
+    <!--<sql id="Org_Relation_List">-->
+        <!--ORG_ID as id, PARENT_ORG_ID as pId, ORG_NAME as name, ORG_SIMPNAME as sipName-->
+    <!--</sql>-->
+
+    <sql id="Org_Relation_List">
+        ORG_ID, PARENT_ORG_ID, ORG_NAME, ORG_SIMPNAME, ORG_LEVEL
+    </sql>
+
+    <select id="selectOrgInfoByOrgId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        <include refid="Org_Info_Column_List" />
+        from R$ORG
+        where ORG_ID = #{orgId,jdbcType=VARCHAR}
+        and STATE = '0'
+    </select>
+
+    <!-- zTree 异步加载 -->
+    <select id="selectOrgChildrenByOrgParentId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        <include refid="Org_Relation_List" />
+        from R$ORG
+        where PARENT_ORG_ID = #{parentOrgId,jdbcType=VARCHAR}
+        and STATE = '0'
+    </select>
+
+    <select id="selectCountByOrgParentId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) as O_COUNT
+        from R$ORG
+        where PARENT_ORG_ID = #{parentOrgId,jdbcType=VARCHAR}
+    </select>
+
+    <!-- zTree 一次性加载 -->
+    <select id="selectAllOrgChildrenByOrgParentId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        <include refid="Org_Relation_List" />
+        from R$ORG
+        where STATE = '0'
+    </select>
+
+</mapper>

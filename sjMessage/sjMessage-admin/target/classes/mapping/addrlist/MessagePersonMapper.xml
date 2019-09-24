@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.addrlist.mapper.MessagePersonMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.addrlist.entity.MessagePersonEntity" id="messagePersonMap">
+        <result property="personId" column="PERSON_ID" jdbcType="VARCHAR"/>
+        <result property="personName" column="PERSON_NAME" jdbcType="VARCHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="VARCHAR"/>
+        <result property="orgId" column="ORG_ID" jdbcType="VARCHAR"/>
+        <result property="personDuty" column="PERSON_DUTY" jdbcType="VARCHAR"/>
+        <result property="personOfficial" column="PERSON_OFFICIAL" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="TIMESTAMP"/>
+        <result property="ord" column="ORD" jdbcType="DECIMAL"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Person_Info_Column_List">
+        PERSON_ID, PERSON_NAME, DEPT_ID, ORG_ID, PERSON_DUTY, PERSON_OFFICIAL, CREATE_DATE, ORD
+    </sql>
+
+    <select id="selectPersonInfoByPersonId" parameterType="java.lang.String" resultType="java.util.HashMap">
+        select
+        <include refid="Person_Info_Column_List" />
+        from R$PERSON
+        where PERSON_ID = #{personId,jdbcType=VARCHAR}
+        and STATE = '0'
+    </select>
+
+
+
+</mapper>

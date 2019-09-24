@@ -1,0 +1,21 @@
+# server port
+server:
+  port: 8080
+
+# database
+datasource:
+  tns_a: (DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.149)(PORT = 1521)))(CONNECT_DATA =(SID = QT12)))
+  tns_b: (DESCRIPTION =(ADDRESS_LIST =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.141)(PORT = 1521)))(CONNECT_DATA =(SID = QT12)))
+
+# spring
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+#    url: jdbc:mysql://${datasource.url_A}?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10
+    url: jdbc:oracle:thin:@${datasource.tns_a}
+    username: sj_message
+    password: sj_message
+    max-idle: 10
+    max-wait: 10000
+    min-idle: 10
+    initial-size: 5

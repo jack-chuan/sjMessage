@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+    
+    <link rel="stylesheet" th:href="@{/css/iconfont/iconfont.css}"/>
+    
+    <script type="text/javascript" th:src="@{/plugins/jquery-1.11.1/jquery-1.11.1.min.js}"></script>
+</head>
+<body>
+  <div class="MessTop"><h1>江苏省市场监督管理局消息管理系统</h1>
+    <div>
+      <div><a class="user userB" href="javascript:void(0);" onclick ="quit()"></a></div>
+      <div>
+<!--         <div class="userinfo" style="line-height: 55px;"><span class="click clickA" id="deptname" ></span></div> -->
+        <div class="userinfo" style="line-height: 85px;"><span class="click clickB" id="username"></span></div>
+      </div>
+      <div><a class="user userA"></a></div>
+       <div><a class="user userC" href="javascript:void(0);" onclick ="index()"></a></div> 
+    </div>
+  </div>
+<div class="MainFrame">
+	<div class="Sidebar">
+		<ul>
+			<li><a id="toWriteMessagePage" target="main" th:href="@{/pageJump/toWriteMessagePage}" class="on"><i class="iconfont">&#xe60a;</i>写消息</a></li>
+			<li><a id="receiveMsg" target="main" th:href="@{/pageJump/receiveMsg}"><i class="iconfont">&#xe628;</i>收件箱</a></li>
+			<li><a id="toOutboxPage" target="main" th:href="@{/pageJump/toOutboxPage}"><i class="iconfont">&#xe694;</i>发件箱</a></li>
+			<li><a id="toDraftboxPage" target="main" th:href="@{/pageJump/toDraftboxPage}"><i class="iconfont">&#xe632;</i>草稿箱</a></li>
+			<li><a id="toDustbinPage" target="main" th:href="@{/pageJump/toDustbinPage}"><i class="iconfont">&#xe664;</i>垃圾箱</a></li>
+			<li><a id="toAddressBookPage" target="main" th:href="@{/pageJump/toAddressBookPage}"><i class="iconfont">&#xe600;</i>通讯录</a></li>
+		</ul>
+		<div class="Send"><img th:src="@{/img/send.png}" alt="send"></div>
+	</div>
+	<div class="frameBody">
+		<iframe id="frameBody" name="main" frameborder="no" border="0" th:src="@{/pageJump/toWriteMessagePage}"></iframe>
+	</div>
+</div>
+<script th:src="@{/js/utils/Utils.js}"></script>
+<script th:src="@{/js/system/frame.js}"></script>
+<script th:src="@{/js/message/index.js}"></script>
+</body>
+</html>

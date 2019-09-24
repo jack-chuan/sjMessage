@@ -1,0 +1,98 @@
+package ${package}.${moduleName}.controller;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import cn.com.sparknet.sjMessage.common.validator.ValidatorUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.service.${className}Service;
+import ${mainPath}.common.util.PageUtils;
+import ${mainPath}.common.util.MapResult;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping(value = "${moduleName}/${pathName}", produces = "application/json; charset=UTF-8")
+@Api(value = "sjMessage Generator 自动生成接口", tags = "sjMsg-Gen：${pathName}")
+public class ${className}Controller {
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+    /**
+     * 列表
+     */
+    @GetMapping("/list")
+    @RequiresPermissions("${moduleName}:${pathName}:list")
+    @ApiOperation(value = "${pathName}列表", notes = "${pathName}:list")
+    public MapResult list(@RequestParam Map<String, Object> params){
+        PageUtils page = ${classname}Service.queryPage(params);
+
+        return MapResult.success().put("page", page);
+    }
+
+
+    /**
+     * 信息
+     */
+    @GetMapping("/info/{${pk.attrname}}")
+    @RequiresPermissions("${moduleName}:${pathName}:info")
+    @ApiOperation(value = "${pathName}信息", notes = "${pathName}:info")
+    public MapResult info(@PathVariable("${pk.attrname}") @ApiParam("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
+        ${className}Entity ${classname} = ${classname}Service.getById(${pk.attrname});
+
+        return MapResult.success().put("${classname}", ${classname});
+    }
+
+    /**
+     * 保存
+     */
+    @PostMapping("/save")
+    @RequiresPermissions("${moduleName}:${pathName}:save")
+    @ApiOperation(value = "${pathName}保存", notes = "${pathName}:save")
+    public MapResult save(@RequestBody ${className}Entity ${classname}){
+        ${classname}Service.save(${classname});
+
+        return MapResult.success();
+    }
+
+    /**
+     * 修改
+     */
+    @PostMapping("/update")
+    @RequiresPermissions("${moduleName}:${pathName}:update")
+    @ApiOperation(value = "${pathName}修改", notes = "${pathName}:update")
+    public MapResult update(@RequestBody ${className}Entity ${classname}){
+        ValidatorUtils.validateEntity(${classname});
+        ${classname}Service.updateById(${classname});
+        
+        return MapResult.success();
+    }
+
+    /**
+     * 删除
+     */
+    @PostMapping("/delete")
+    @RequiresPermissions("${moduleName}:${pathName}:delete")
+    @ApiOperation(value = "${pathName}删除", notes = "${pathName}:delete")
+    public MapResult delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
+        ${classname}Service.removeByIds(Arrays.asList(${pk.attrname}s));
+
+        return MapResult.success();
+    }
+
+}

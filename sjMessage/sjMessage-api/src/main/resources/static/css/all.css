@@ -1,0 +1,91 @@
+*{
+    font-family: "微软雅黑";
+}
+div.layui-table-tool{
+    background-color: #f2f2f2;
+}
+div.layui-table-header{
+    background-color: #f2f2f2;
+}
+/*兼容ie8 layui库样式做修改  table tr th td*/
+.layui-table th{
+    position: static;
+    box-sizing: border-box;
+}
+table.layui-table thead tr {
+    background-color: #f2f2f2;
+}
+html,body{
+    height: 100%;
+}
+.rightFloating {
+    text-align: right;
+}
+.rightFloating .layui-form-label {
+    width: auto;
+}
+input {
+    color: #757575;
+}
+/*替换table checkbox 主题颜色 开始*/
+.layui-form-checked[lay-skin=primary] i {
+    border-color: #1e9fff;
+    background-color: #1e9fff;
+}
+.layui-form-checkbox[lay-skin=primary]:hover i {
+    border-color: #1e9fff;
+}
+/*替换table checkbox 主题颜色 结束*/
+
+/*替换radio 主题颜色 开始*/
+.layui-form-radio>i:hover,.layui-form-radioed>i{color:#1e9fff;}
+/*替换radio 主题颜色 结束*/
+
+/*替换select 主题颜色 开始*/
+.layui-form-select dl dd.layui-this{
+    background-color: #1e9fff;
+    color: #fff;
+}
+/*替换select 主题颜色 结束*/
+
+/*查询条件样式 开始*/
+.searchForm .layui-form-item {
+    position: relative;
+    display: inline-block;
+    width: 47%;
+    margin-bottom: 8px;
+}
+.searchForm .layui-form-item .layui-form-label{
+    text-align: right;
+    width: 160px;
+    padding: 2px 0;
+    margin-right: 8px;
+    line-height: 38px;
+}
+.searchForm .layui-input-block{
+    min-height: 25px;
+    margin-left: 170px;
+}
+.searchForm .tips_btn, .searchForm .gjjs_btn{
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+i.unRead{
+    color: #d81e06;
+}
+/*.mainTable table{
+    width: 100% !important;
+}*/
+/*查询条件样式 结束*/
+
+/*去掉列表竖线样式 开始*/
+/*.mainTable .layui-table-view .layui-table td,.searchTable .layui-table-view .layui-table th {
+    border-right: none;
+}*/
+/*去掉列表竖线样式 结束*/
+
+/*.toolbar .laydate{
+    width: 100px;
+}*/

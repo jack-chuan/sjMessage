@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.sparknet.sjMessage.app.mapper.MsgFileMapper">
+  <resultMap id="BaseResultMap" type="cn.com.sparknet.sjMessage.app.entity.MsgFile">
+    <id column="FILE_ID" jdbcType="CHAR" property="fileId" />
+    <result column="MSG_ID" jdbcType="CHAR" property="msgId" />
+    <result column="FILE_TITLE" jdbcType="VARCHAR" property="fileTitle" />
+    <result column="FILE_FDFS_ADDRESS" jdbcType="VARCHAR" property="fileFdfsAddress" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="STATE" jdbcType="DECIMAL" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FILE_ID, MSG_ID, FILE_TITLE, FILE_FDFS_ADDRESS, CREATE_DATE, STATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_MSG_FILE
+    where FILE_ID = #{fileId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_MSG_FILE
+    where FILE_ID = #{fileId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.sparknet.sjMessage.app.entity.MsgFile">
+    insert into T_MSG_FILE (FILE_ID, MSG_ID, FILE_TITLE, 
+      FILE_FDFS_ADDRESS, CREATE_DATE, STATE
+      )
+    values (#{fileId,jdbcType=CHAR}, #{msgId,jdbcType=CHAR}, #{fileTitle,jdbcType=VARCHAR}, 
+      #{fileFdfsAddress,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{state,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.sparknet.sjMessage.app.entity.MsgFile">
+    insert into T_MSG_FILE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fileId != null">
+        FILE_ID,
+      </if>
+      <if test="msgId != null">
+        MSG_ID,
+      </if>
+      <if test="fileTitle != null">
+        FILE_TITLE,
+      </if>
+      <if test="fileFdfsAddress != null">
+        FILE_FDFS_ADDRESS,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fileId != null">
+        #{fileId,jdbcType=CHAR},
+      </if>
+      <if test="msgId != null">
+        #{msgId,jdbcType=CHAR},
+      </if>
+      <if test="fileTitle != null">
+        #{fileTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fileFdfsAddress != null">
+        #{fileFdfsAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.sparknet.sjMessage.app.entity.MsgFile">
+    update T_MSG_FILE
+    <set>
+      <if test="msgId != null">
+        MSG_ID = #{msgId,jdbcType=CHAR},
+      </if>
+      <if test="fileTitle != null">
+        FILE_TITLE = #{fileTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fileFdfsAddress != null">
+        FILE_FDFS_ADDRESS = #{fileFdfsAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where FILE_ID = #{fileId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.sparknet.sjMessage.app.entity.MsgFile">
+    update T_MSG_FILE
+    set MSG_ID = #{msgId,jdbcType=CHAR},
+      FILE_TITLE = #{fileTitle,jdbcType=VARCHAR},
+      FILE_FDFS_ADDRESS = #{fileFdfsAddress,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=DECIMAL}
+    where FILE_ID = #{fileId,jdbcType=CHAR}
+  </update>
+  <select id="selectByMsgId" parameterType="java.lang.String" resultType="java.util.Map">
+    select 
+    <include refid="Base_Column_List" />
+    from T_MSG_FILE
+    where MSG_ID = #{msgId,jdbcType=CHAR}
+    and STATE = 0
+  </select>
+  <update id="updateFileByMsgId" parameterType="java.lang.String">
+    update T_MSG_FILE
+      set MSG_ID = #{msgId,jdbcType=CHAR}
+      where FILE_ID = #{fileId,jdbcType=CHAR}
+  </update>
+  <update id="updateFileStateByFileId" parameterType="java.lang.String">
+    update T_MSG_FILE
+      set STATE = 1
+      where FILE_ID = #{fileId,jdbcType=CHAR}
+  </update>
+</mapper>

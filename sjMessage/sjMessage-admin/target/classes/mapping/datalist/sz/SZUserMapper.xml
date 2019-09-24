@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.sparknet.sjMessage.datalist.mapper.sz.SZUserMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cn.com.sparknet.sjMessage.datalist.entity.sz.SZUserEntity" id="szUserMap">
+        <result property="userId" column="USER_ID" jdbcType="CHAR"/>
+        <result property="userStaffCode" column="USER_STAFF_CODE" jdbcType="VARCHAR"/>
+        <result property="personId" column="PERSON_ID" jdbcType="CHAR"/>
+        <result property="deptId" column="DEPT_ID" jdbcType="CHAR"/>
+        <result property="orgId" column="ORG_ID" jdbcType="CHAR"/>
+        <result property="userIndivId" column="USER_INDIV_ID" jdbcType="CHAR"/>
+        <result property="userPassword" column="USER_PASSWORD" jdbcType="VARCHAR"/>
+        <result property="createDate" column="CREATE_DATE" jdbcType="DATE"/>
+        <result property="lastLoginDate" column="LAST_LOGIN_DATE" jdbcType="DATE"/>
+        <result property="state" column="STATE" jdbcType="DECIMAL"/>
+        <result property="lapseDate" column="LAPSE_DATE" jdbcType="DATE"/>
+        <result property="ord" column="ORD" jdbcType="DECIMAL"/>
+        <result property="userType" column="USER_TYPE" jdbcType="CHAR"/>
+        <result property="isRefreshPd" column="IS_REFRESH_PD" jdbcType="CHAR"/>
+        <result property="isLoginIp" column="IS_LOGIN_IP" jdbcType="CHAR"/>
+        <result property="isLoginMac" column="IS_LOGIN_MAC" jdbcType="CHAR"/>
+        <result property="userSort" column="USER_SORT" jdbcType="CHAR"/>
+        <result property="keyId" column="KEY_ID" jdbcType="VARCHAR"/>
+        <result property="ifAllowLogin" column="IF_ALLOW_LOGIN" jdbcType="DECIMAL"/>
+        <result property="userToken" column="USER_TOKEN" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- TODO: 这里生成所有字段，需删除末尾逗号并按需整理 -->
+    <sql id="SZUser_Info_Column_List">
+        USER_ID, USER_STAFF_CODE, PERSON_ID, DEPT_ID, ORG_ID, USER_INDIV_ID, USER_PASSWORD, CREATE_DATE, LAST_LOGIN_DATE, STATE, LAPSE_DATE, ORD, USER_TYPE, IS_REFRESH_PD, IS_LOGIN_IP, IS_LOGIN_MAC, USER_SORT, KEY_ID, IF_ALLOW_LOGIN, USER_TOKEN
+    </sql>
+
+    <select id="queryAllList" resultMap="szUserMap">
+        select
+        <include refid="SZUser_Info_Column_List" />
+        from R$USER
+        where STATE = '0'
+    </select>
+
+</mapper>

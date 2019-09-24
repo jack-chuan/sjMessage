@@ -1,0 +1,100 @@
+mq:
+  env: local
+  
+log: 
+  user:
+    queue:
+      name: local.log.user.queue
+    exchange:
+      name: local.log.user.exchange
+    routing:
+      key:
+        name: local.log.user.routing.key
+        
+message:
+    order:
+      queue:
+        name: message.order.queue.name
+      exchange:
+        name: message.order.exchange.name
+      routing:
+        key: 
+          name: message.order.routing.key
+            
+# spring
+spring:
+  profiles:
+    active:
+#    - pro
+    - dev
+#    - test
+  thymeleaf:
+    cache: false # 关闭缓存
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: -1
+      max-request-size: 5000MB
+  #rabbitmq
+  rabbitmq:
+    addresses: 192.168.20.41:5672
+    username: guest
+    password: guest
+    connection-timeout: 15000
+    virtual-host: /
+    publisher-confirms: true #开启消息确认
+    publisher-returns: true #开启消息return
+    template:
+      mandatory: true #交换机找不到QUEUE时，会调用Basic.Return 命令将消息返回给生产者
+    listener:
+      direct:
+        acknowledge-mode: manual # 开启手动 ，否则confirm自动确认
+      simple:
+        concurrency: 1 #并发消费者的初始化值
+        max-concurrency: 20 #并发消费者的最大值
+        prefetch: 1 #每个消费者每次监听时可拉取处理的消息数量
+#  #配置redis
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    jedis:
+#      pool:
+#                    #最大连接数据库连接数,设 0 为没有限制
+#        max-active: 8
+#                    #最大等待连接中的数量,设 0 为没有限制
+#        max-idle: 8
+#                    #最小等待连接中的数量,设 0 为没有限制
+#        min-idle: 0
+#                    #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+#        max-wait: 300ms
+   #配置elasticsearch
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true #是否持久化
+      cluster-name: elk-application
+      cluster-nodes: 192.168.1.154:9300
+# mybatis
+mybatis:
+  type-aliases-package: cn.com.sparknet.sjMessage.app.entity # 指定别名设置的包为所有entity
+  configuration:
+    map-underscore-to-camel-case: true # 驼峰命名规范
+  mapper-locations: # mapper映射文件位置
+    - classpath:mapping/**/*Mapper.xml
+
+# log
+logging:
+  config: classpath:logback-api.xml
+  level:
+  - cn.com.sparknet.sjMessage.app.mapper: trace
+  - io.swagger.models.parameters.AbstractSerializableParameter: error
+
+#server:
+#  tomcat:
+#    max-swallow-size: -1
+
+#server:
+#  tomcat:
+#    max-http-post-size: -1
+
+sessiontime: 7200
